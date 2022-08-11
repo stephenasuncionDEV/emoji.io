@@ -1,0 +1,19 @@
+{
+  "name": "emoji.io",
+  "version": "1.0.0",
+  "description": "<p align=\"center\">\r     <a href='https://www.nfthost.app/' rel='nofollow'>\r         <img src='./client/public/assets/images/logo.png' alt='emoji.io Logo' style=\"width: 100px\" />\r     </a>\r </p>",
+  "main": "api/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stephenasuncionDEV/emoji.io.git"
+  },
+  "author": "",
+  "license": "SEE LICENSE IN ./client/LICENSE",
+  "bugs": {
+    "url": "https://github.com/stephenasuncionDEV/emoji.io/issues"
+  },
+  "homepage": "https://github.com/stephenasuncionDEV/emoji.io#readme"
+}
