@@ -7,6 +7,10 @@
 <h1 align="center">emoji.io</h1>
 
 <p align="center">
+    <img src='https://api.netlify.com/api/v1/badges/f7d0b542-a3eb-4ddd-9863-71e000e1acd7/deploy-status' alt='Netlify Build'/>
+</p>
+
+<p align="center">
     emoji.io is a multiplayer online action game created by Filipino developer Stephen Asuncion.
 </p>
 
