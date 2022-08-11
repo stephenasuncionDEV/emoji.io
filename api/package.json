@@ -34,6 +34,7 @@
     "#routes/*": "./src/routes/*",
     "#socket/*": "./src/socket/*",
     "#db/*": "./src/db/*",
-    "#types/*": "./src/types/*"
+    "#types/*": "./src/types/*",
+    "#interfaces/*": "./src/interfaces/*"
   }
 }
