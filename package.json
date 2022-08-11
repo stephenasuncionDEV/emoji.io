@@ -4,7 +4,8 @@
   "description": "<p align=\"center\">\r     <a href='https://www.nfthost.app/' rel='nofollow'>\r         <img src='./client/public/assets/images/logo.png' alt='emoji.io Logo' style=\"width: 100px\" />\r     </a>\r </p>",
   "main": "api/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node api/index.ts"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/stephenasuncionDEV/emoji.io/issues"
   },
-  "homepage": "https://github.com/stephenasuncionDEV/emoji.io#readme"
+  "homepage": "https://github.com/stephenasuncionDEV/emoji.io#readme",
+  "dependencies": {
+    "ts-node": "^10.9.1"
+  }
 }
