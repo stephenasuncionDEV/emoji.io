@@ -1,6 +1,6 @@
 <p align="center">
     <a href='https://www.nfthost.app/' rel='nofollow'>
-        <img src='./public/assets/images/logo.png' alt='emoji.io Logo' style="width: 100px" />
+        <img src='./client/public/assets/images/logo.png' alt='emoji.io Logo' style="width: 100px" />
     </a>
 </p>
 
