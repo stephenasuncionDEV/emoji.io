@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
-import { CorsOption } from '../types/globals'
+import cors from 'cors'
 
-module.exports = (corsOption: CorsOption) => {
+const CorsHandlerMain = (corsOption: cors.CorsOptions | any) => {
     const corsHandler: RequestHandler = (req, res, next) => {
         const origin: any = req.headers.origin;
     
@@ -19,4 +19,6 @@ module.exports = (corsOption: CorsOption) => {
     return {
         corsHandler
     }
-};
+}
+
+export default CorsHandlerMain

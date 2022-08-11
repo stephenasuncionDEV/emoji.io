@@ -98,10 +98,35 @@
 
         /* Completeness */
         // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
-        "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
+        "skipLibCheck": true,                                 /* Skip type checking all .d.ts files. */
+        "baseUrl": ".",
+        "paths": {
+            "@/middlewares/*": [
+                "src/middlewares/*"
+            ],
+            "@/models/*": [
+                "src/db/models/*"
+            ],
+            "@/routes/*": [
+                "src/routes/*"
+            ],
+            "@/socket/*": [
+                "src/socket/*"
+            ],
+            "@/db/*": [
+                "src/db/*"
+            ],
+            "@/types/*": [
+                "src/types/*"
+            ],
+            "@/interfaces/*": [
+                "src/interfaces/*"
+            ]
+        }
     },
     "include": [
         "**/*.ts",
-        "**/*.js"
+        "**/*.js",
+        "./src"
     ]
 }

@@ -1,33 +1,33 @@
 // Dependencies
-require('dotenv').config();
-const path = require('path');
-const express = require('express');
-const { Express } = require('express');
-const cors = require('cors');
+import 'dotenv/config'
+import path from 'path'
+import express from 'express'
+import cors, { CorsOptions, CorsOptionsDelegate, CorsRequest } from 'cors'
+import { createServer } from 'http'
+import errorHandler from './src/middlewares/errorHandler'
+import CorsHandlerMain from './src/middlewares/corsHandler'
+import { Server } from 'socket.io'
+import connection from './src/db/connection'
 // const router = require('#routes/index.ts');
 
 const app = express();
-const server = require('http').Server(app);
-const errorHandler = require('#middlewares/errorHandler.ts');
-const io = require('socket.io')(server, { 
+const server = createServer(app);
+const io = new Server(server, { 
     cors: {
         origin: ['http://localhost:3000', 'https://emoji-io.netlify.app']
     }
 });
 
-// Database
-const connection = require('#db/connection.ts');
-
 // Cors
-const corsOption = {
+const corsOption: CorsOptions | CorsOptionsDelegate<CorsRequest> | undefined = {
     origin: ['http://localhost:3000', 'https://emoji-io.netlify.app'],
     optionsSuccessStatus: 200
 }
 
-const { corsHandler } = require('#middlewares/corsHandler.ts')(corsOption);
+const { corsHandler } = CorsHandlerMain(corsOption);
 
 // Express Config
-app.options(cors(corsOption));
+app.use(cors(corsOption));
 app.use(corsHandler);
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended:true }));
