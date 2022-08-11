@@ -1,0 +1,1 @@
+const gamePhysics = require('#socket/physics.js');
