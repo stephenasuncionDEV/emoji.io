@@ -44,7 +44,7 @@ connection.once('open', () => {
     })
 
     // Web Socket Connection
-    io.on('connection', (socket: any) => {
+    io.on('connection', (socket) => {
         console.log(`[emoji.io] user <${socket.id}> connected`);
 
         // Socket Listeners

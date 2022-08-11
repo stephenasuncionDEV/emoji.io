@@ -15,8 +15,5 @@
   "bugs": {
     "url": "https://github.com/stephenasuncionDEV/emoji.io/issues"
   },
-  "homepage": "https://github.com/stephenasuncionDEV/emoji.io#readme",
-  "devDependencies": {
-    "ts-node": "^10.9.1"
-  }
+  "homepage": "https://github.com/stephenasuncionDEV/emoji.io#readme"
 }
