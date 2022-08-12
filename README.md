@@ -18,6 +18,7 @@
 ## Setup
 
 [DockerHub: Client](https://hub.docker.com/repository/docker/stephenasuncion/emoji.io)
+
 [DockerHub: Server](https://hub.docker.com/repository/docker/stephenasuncion/emoji.io-api)
 
 Running with Docker Hub:
