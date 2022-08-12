@@ -17,7 +17,7 @@
 
 ## Technologies
 
-![Technologies](https://skillicons.dev/icons?i=nodejs,express,nextjs,vercel,heroku,firebase,mongodb,sass&theme=light)
+![Technologies](https://skillicons.dev/icons?i=nodejs,express,nextjs,netlify,heroku,firebase,mongodb,sass&theme=light)
 
 Other: [Socket.io](https://socket.io/), [Chakra UI](https://chakra-ui.com/), [Twilio](https://www.twilio.com/), [MailJet](https://www.mailjet.com/)
 
