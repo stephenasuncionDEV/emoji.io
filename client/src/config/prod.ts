@@ -1,7 +1,7 @@
 import { SingleConfig } from '@/interfaces/global'
 
 const production: SingleConfig = {
-	serverUrl: 'http://localhost:8080',
+	serverUrl: 'https://emoji-io-api.herokuapp.com',
 }
 
 export default production
