@@ -1,10 +1,9 @@
 import type { NextPage } from 'next'
-import Link from 'next/link'
+import { default as NextLink } from 'next/link'
 import { Center, Text, Flex, VStack, HStack, Button, Image, Divider } from '@chakra-ui/react'
 import Meta from '@/components/Meta'
 
 const Home: NextPage = () => {
-
     return (
         <main style={{ display: 'flex', minHeight: '100vh' }}>
             <Meta title='emoji.io' />
@@ -14,21 +13,23 @@ const Home: NextPage = () => {
                     <Text fontSize='32pt' textAlign='center'>
                         emoji.io
                     </Text>
-                    <Button mt='1em' variant='primary'>
-                        Play 🚀
-                    </Button>
+                    <NextLink href='/login' shallow passHref>
+                        <Button mt='1em' variant='primary'>
+                            Play 🚀
+                        </Button>
+                    </NextLink>
                     <HStack mt='1em'>
-                        <Link href='/' shallow passHref>
+                        <NextLink href='/' shallow passHref>
                             <Text opacity='.5' fontSize='10pt' cursor='pointer' _hover={{ textDecoration: 'underline', opacity: '1' }}>
                                 Terms of Service
                             </Text>
-                        </Link>
+                        </NextLink>
                         <Divider opacity='.5' orientation='vertical' borderLeft='1px solid rgb(150,150,150)' h='15px' />
-                        <Link href='/' shallow passHref>
+                        <NextLink href='/' shallow passHref>
                             <Text opacity='.5' fontSize='10pt' cursor='pointer' _hover={{ textDecoration: 'underline', opacity: '1' }}>
                                 Privacy
                             </Text>
-                        </Link>
+                        </NextLink>
                     </HStack>
                 </Flex>
             </Center>

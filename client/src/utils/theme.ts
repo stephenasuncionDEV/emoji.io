@@ -59,6 +59,17 @@ const Button: ComponentStyleConfig = {
             },
             color: 'white',
         }),
+        login: (props: ComponentDefaultProps) => ({
+            bg: 'white',
+            borderBottom: '3px solid rgb(230,230,230)',
+            _hover: {
+                bg: 'rgb(250,250,250)',
+                _disabled: {
+                    bg: 'rgb(250,250,250)',
+                }
+            },
+            color: 'black',
+        })
     }
 }
 
