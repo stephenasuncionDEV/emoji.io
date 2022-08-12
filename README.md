@@ -7,6 +7,8 @@
 <h1 align="center">emoji.io</h1>
 
 <p align="center">
+    <img src='https://github.com/stephenasuncionDEV/emoji.io/actions/workflows/docker-deployment-backend.yml/badge.svg' alt='Docker Deployment Backend'>
+    <img src='https://github.com/stephenasuncionDEV/emoji.io/actions/workflows/docker-deployment-client.yml/badge.svg' alt='Docker Deployment Client'>
     <img src='https://api.netlify.com/api/v1/badges/f7d0b542-a3eb-4ddd-9863-71e000e1acd7/deploy-status' alt='Netlify Build'/>
 </p>
 
