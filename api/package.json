@@ -19,9 +19,11 @@
     "google-auth-library": "^8.1.1",
     "http": "^0.0.1-security",
     "mongoose": "^6.5.2",
+    "node-mailjet": "^5.1.1",
     "socket.io": "^4.5.1",
     "stripe": "^10.1.0",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "twilio": "^3.80.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",

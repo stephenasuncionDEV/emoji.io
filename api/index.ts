@@ -8,7 +8,7 @@ import errorHandler from './src/middlewares/errorHandler'
 import CorsHandlerMain from './src/middlewares/corsHandler'
 import { Server } from 'socket.io'
 import connection from './src/db/connection'
-// const router = require('#routes/index.ts');
+import router from './src/routes'
 
 const app = express();
 const server = createServer(app);
@@ -32,7 +32,7 @@ app.use(corsHandler);
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended:true }));
 app.use(express.json());
-// app.use('/api/v1', router);
+app.use('/api/v1', router);
 app.use(errorHandler);
 
 // Connections
