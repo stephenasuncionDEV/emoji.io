@@ -16,7 +16,7 @@ const fonts = {
 const styles: Styles = {
     global: (props: GlobalStyleProps) => ({
         body: {
-            bg: mode('white', 'black')(props),
+            bg: mode('#eeefe9', 'linear-gradient(0deg, rgba(26,32,44,1) 0%, rgba(17,21,28,1) 100%)')(props),
         }
     })
 }
@@ -38,17 +38,19 @@ const Button: ComponentStyleConfig = {
             color: mode('black', 'white')(props),
         }),
         primary: (props: ComponentDefaultProps) => ({
-            bg: 'rgb(52,140,212)',
+            bg: 'rgb(245, 78, 0)',
+            borderBottom: '3px solid rgb(186, 59, 0)',
             _hover: {
-                bg: 'rgb(39,107,163)',
+                bg: 'rgb(242, 102, 36)',
                 _disabled: {
-                    bg: 'rgb(39,107,163)',
+                    bg: 'rgb(242, 102, 36)',
                 }
             },
             color: 'white',
         }),
         danger: (props: ComponentDefaultProps) => ({
-            bg: 'red.500',
+            bg: 'rgb(229,62,62)',
+            borderBottom: '3px solid rgb(163, 44, 44)',
             _hover: {
                 bg: 'red.400',
                 _disabled: {
