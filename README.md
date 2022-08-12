@@ -41,6 +41,8 @@ npm run dev (on both api and client folders)
 
 ## Technologies
 
+The `api` folder was deployed to heroku, while `client` folder was deployed to netlify.
+
 ![Technologies](https://skillicons.dev/icons?i=nodejs,express,nextjs,netlify,heroku,firebase,mongodb,sass,docker&theme=light)
 
 Other: [Socket.io](https://socket.io/), [Chakra UI](https://chakra-ui.com/), [Twilio](https://www.twilio.com/), [MailJet](https://www.mailjet.com/)
