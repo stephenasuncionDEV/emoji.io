@@ -2,8 +2,14 @@ import type { NextPage } from 'next'
 import { default as NextLink } from 'next/link'
 import { Center, Text, Flex, VStack, HStack, Button, Image, Divider } from '@chakra-ui/react'
 import Meta from '@/components/Meta'
+// import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from '@/hooks/useFirebase'
 
 const Home: NextPage = () => {
+    // const [user, loading, error] = useAuthState(auth);
+
+    //console.log(user)
+
     return (
         <main style={{ display: 'flex', minHeight: '100vh' }}>
             <Meta title='emoji.io' />

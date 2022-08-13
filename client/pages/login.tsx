@@ -1,14 +1,17 @@
 import type { NextPage } from 'next'
 import { default as NextLink } from 'next/link'
-import { Center, Text, Flex, VStack, HStack, Button, Image, 
+import { Text, Flex, VStack, HStack, Button, Image, 
     Divider, Input, InputGroup, InputLeftElement, Link
 } from '@chakra-ui/react'
+import { useFirebase } from '@/hooks/useFirebase'
 import Meta from '@/components/Meta'
 import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
 import { CgRename } from 'react-icons/cg'
 
 const Login: NextPage = () => {
+    const { SignIn } = useFirebase();
+
     return (
         <main style={{ display: 'flex', minHeight: '100vh' }}>
             <Meta title='Login | emoji.io' />
@@ -26,10 +29,10 @@ const Login: NextPage = () => {
                         Login
                     </Text>
                     <VStack mt='.5em'>
-                        <Button variant='login' leftIcon={<FcGoogle />} w='full'>
+                        <Button variant='login' leftIcon={<FcGoogle />} w='full' onClick={() => SignIn('google')}>
                             Google
                         </Button>
-                        <Button variant='login' leftIcon={<FaGithub />} w='full'>
+                        <Button variant='login' leftIcon={<FaGithub />} w='full' onClick={() => SignIn('github')}>
                             GitHub
                         </Button>
                     </VStack>
