@@ -3,6 +3,7 @@ import { default as NextLink } from 'next/link'
 import { Text, Flex, VStack, HStack, Button, Image, 
     Divider, Input, InputGroup, InputLeftElement, Link
 } from '@chakra-ui/react'
+import { useReAuthenticate } from '@/hooks/useReAuthenticate'
 import { useAuth } from '@/hooks/useAuth'
 import Meta from '@/components/Meta'
 import { FcGoogle } from 'react-icons/fc'
@@ -11,7 +12,8 @@ import { CgRename } from 'react-icons/cg'
 
 const Login: NextPage = () => {
     const { SignIn, SignInAsGuest, nickname, setNickname } = useAuth();
-
+    useReAuthenticate({ protect: false });
+    
     return (
         <main style={{ display: 'flex', minHeight: '100vh' }}>
             <Meta title='Login | emoji.io' />

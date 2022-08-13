@@ -49,7 +49,7 @@ export const useAuth = () => {
                     Authorization: `Bearer ${accessToken}` 
                 }
             })
-
+            
             setUser(res.data);
         }
         catch (err: any) {
