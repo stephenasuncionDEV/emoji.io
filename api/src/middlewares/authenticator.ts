@@ -1,23 +1,21 @@
 import { Request, Response, NextFunction } from 'express'
-import { OAuth2Client } from 'google-auth-library'
+import * as admin from 'firebase-admin'
 
-const oauth2Client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const GOOGLE_CREDENTIALS = require('../../emoji-io-55224-firebase-adminsdk-ldrqz-f78898cc8a.json');
+
+export const firebaseApp = admin.initializeApp({
+    credential: admin.credential.cert(GOOGLE_CREDENTIALS)
+});
+export const auth = admin.auth();
 
 const authenticateToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const authHeader = req.headers['authorization'];
         const token = authHeader && authHeader.split(' ')[1];
 
-        // Check what type of token
+        const decodedToken = await auth.verifyIdToken(token!);
 
-        if (!token) return res.status(401).json({ message: 'Invalid access token' });
-    
-        const ticket = await oauth2Client.verifyIdToken({
-            idToken: token,
-            audience: [process.env.GOOGLE_CLIENT_ID || '']
-        });
-        
-        if (!ticket) return res.status(401).json({ message: 'Invalid access token' });
+        if (!decodedToken) return res.status(401).json({ message: 'Invalid access token, please relogin.' });
     
         next();
     }

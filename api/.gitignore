@@ -33,3 +33,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# firebase admin sdk
+emoji-io-55224-firebase-adminsdk-ldrqz-f78898cc8a.json
