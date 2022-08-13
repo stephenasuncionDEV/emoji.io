@@ -43,7 +43,7 @@ npm run dev (on both api and client folders)
 
 The `api` folder was deployed to heroku, while `client` folder was deployed to netlify.
 
-![Technologies](https://skillicons.dev/icons?i=nodejs,express,nextjs,netlify,heroku,firebase,mongodb,sass,docker,redux,git&theme=light)
+![Technologies](https://skillicons.dev/icons?i=nodejs,express,nextjs,netlify,heroku,firebase,mongodb,sass,docker,git&theme=light)
 
 Other: [Socket.io](https://socket.io/), [Chakra UI](https://chakra-ui.com/), [Stripe](https://stripe.com/), [Twilio](https://www.twilio.com/), [MailJet](https://www.mailjet.com/)
 

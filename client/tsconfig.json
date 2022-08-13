@@ -25,23 +25,8 @@
             "@/providers/*": [
                 "src/providers/*"
             ],
-            "@/models/*": [
-                "models/*"
-            ],
             "@/config/*": [
                 "src/config/*"
-            ],
-            "@/routes/*": [
-                "routes/*"
-            ],
-            "@/api/*": [
-                "api/*"
-            ],
-            "@/db/*": [
-                "db/*"
-            ],
-            "@/middlewares/*": [
-                "middlewares/*"
             ],
             "@/hooks/*": [
                 "src/hooks/*"
@@ -54,9 +39,6 @@
             ],
             "@/styles/*": [
                 "src/styles/*"
-            ],
-            "@/reducers/*": [
-                "src/reducers/*"
             ]
         }
     },
@@ -64,7 +46,8 @@
         "next-env.d.ts", 
         "**/*.ts", 
         "**/*.tsx",
-        "**/*.js"
+        "**/*.js",
+        "**/*.json"
     ],
     "exclude": [
         "node_modules"
