@@ -10,5 +10,6 @@ const configs: Config = {
 }
 
 const exportedConfig = configs[process.env.NODE_ENV as keyof Config];
+console.log('[emoji.io] running', process.env.NODE_ENV, 'configurations');
 
 export default exportedConfig
