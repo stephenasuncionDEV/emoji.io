@@ -3,7 +3,7 @@ import { default as NextLink } from 'next/link'
 import { Center, Text, Flex, VStack, HStack, Button, Image, Divider } from '@chakra-ui/react'
 import Meta from '@/components/Meta'
 // import { useAuthState } from 'react-firebase-hooks/auth'
-import { auth } from '@/hooks/useFirebase'
+import { auth } from '@/hooks/useAuth'
 
 const Home: NextPage = () => {
     // const [user, loading, error] = useAuthState(auth);

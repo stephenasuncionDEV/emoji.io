@@ -3,14 +3,14 @@ import { default as NextLink } from 'next/link'
 import { Text, Flex, VStack, HStack, Button, Image, 
     Divider, Input, InputGroup, InputLeftElement, Link
 } from '@chakra-ui/react'
-import { useFirebase } from '@/hooks/useFirebase'
+import { useAuth } from '@/hooks/useAuth'
 import Meta from '@/components/Meta'
 import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
 import { CgRename } from 'react-icons/cg'
 
 const Login: NextPage = () => {
-    const { SignIn } = useFirebase();
+    const { SignIn, SignInAsGuest, nickname, setNickname } = useAuth();
 
     return (
         <main style={{ display: 'flex', minHeight: '100vh' }}>
@@ -47,10 +47,10 @@ const Login: NextPage = () => {
                         <InputLeftElement pointerEvents='none'>
                             <CgRename color='gray.300' />
                         </InputLeftElement>
-                        <Input type='text' bg='white' placeholder='Nickname' />
+                        <Input type='text' bg='white' placeholder='Nickname' value={nickname} onChange={(e) => setNickname(e.target.value)} />
                     </InputGroup>
                     <HStack mt='2em' justifyContent='space-between'>
-                        <Button variant='primary' size='sm'>
+                        <Button variant='primary' size='sm' onClick={SignInAsGuest}>
                             Next
                         </Button>
                         <Link href='mailto:stephenasuncion@outlook.com' fontSize='10pt' color='gray.400'>

@@ -1,10 +1,12 @@
 import { SignedInUser } from '@/interfaces/globals'
+import { User } from '@/types/globals'
 import { initializeApp } from 'firebase/app'
 import { useToast } from '@chakra-ui/react'
 import { useUser } from '@/providers/UserProvider'
 import { GoogleAuthProvider, GithubAuthProvider, getAuth, signInWithPopup, signOut, AuthProvider } from 'firebase/auth'
 import axios from 'axios'
 import config from '@/config/index'
+import { useState } from 'react'
 
 const firebaseConfig = {
     apiKey: process.env.FB_API_KEY,
@@ -22,9 +24,10 @@ export const githubProvider = new GithubAuthProvider();
 
 export type SignInProvider = 'google' | 'github'
 
-export const useFirebase = () => {
+export const useAuth = () => {
     const toast = useToast();
     const { setUser } = useUser();
+    const [nickname, setNickname] = useState<string>('');
 
     const SignIn = async (provider: SignInProvider) => {
         try {
@@ -47,15 +50,14 @@ export const useFirebase = () => {
                 }
             })
 
-            //User
             setUser(res.data);
         }
-        catch (e: any) {
-            console.error(e);
+        catch (err: any) {
+            console.error(err);
             let msg = 'Error';
-            if (e.response) msg = e.response.data.message
-            else if (e.request)  msg = e.request.message
-            else msg = e.message
+            if (err.response) msg = err.response.data.message
+            else if (err.request)  msg = err.request.message
+            else msg = err.message
             toast({
                 title: 'Error',
                 description: msg,
@@ -76,8 +78,45 @@ export const useFirebase = () => {
         }
     }
 
+    const SignInAsGuest = async () => {
+        try {
+            if (!nickname.length) throw new Error('You must enter a nickname');
+
+            const newUser: User = {
+                _id: 'guest',
+                email: 'guest',
+                firebase_uid: 'guest',
+                name: nickname,
+                player: {
+                    emoji: '🐀',
+                    emojiOwned: [],
+                    nameColor: 'black',
+                    size: 36
+                },
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            }
+
+            setUser(newUser);
+        }
+        catch (err: any) {
+            console.error(err)
+            toast({
+                title: 'Error',
+                description: err.message,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+                position: 'bottom'
+            })
+        }
+    }
+
     return {
         SignIn,
-        Logout
+        SignInAsGuest,
+        Logout,
+        nickname,
+        setNickname
     }
 }

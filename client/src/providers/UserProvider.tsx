@@ -1,4 +1,4 @@
-import { Props, User } from '@/types/global'
+import { Props, User } from '@/types/globals'
 import { useState, useContext, createContext, FC, Dispatch } from 'react'
 
 export type UserContextType = {

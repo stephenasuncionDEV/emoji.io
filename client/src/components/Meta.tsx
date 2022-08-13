@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import Head from 'next/head'
-import { MetaProps } from '@/types/global'
+import { MetaProps } from '@/types/globals'
 
 const Meta: FC<MetaProps> = ({ title }) => {
     return (

@@ -1,6 +1,6 @@
 export interface SignedInUser {
-    displayName: String;
-    email: String;
-    uid: String;
+    displayName: string;
+    email: string;
+    uid: string;
     [x: string | number | symbol]: unknown;
 }
