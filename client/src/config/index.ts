@@ -1,7 +1,16 @@
-import { Config } from '@/interfaces/global'
 import development from '@/config/dev'
 import production from '@/config/prod'
 import test from '@/config/test'
+
+export interface SingleConfig {
+    serverUrl: String
+}
+
+export interface Config {
+    development: SingleConfig,
+    production: SingleConfig,
+    test: SingleConfig
+}
 
 const configs: Config = {
 	development,

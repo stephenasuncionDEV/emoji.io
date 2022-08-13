@@ -1,4 +1,4 @@
-import { SingleConfig } from '@/interfaces/global'
+import { SingleConfig } from '@/config/index'
 
 const development: SingleConfig = {
 	serverUrl: 'http://localhost:8080',
