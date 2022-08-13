@@ -1,11 +1,11 @@
 import { RequestHandler } from 'express'
-import cors from 'cors'
 
-const CorsHandlerMain = (corsOption: cors.CorsOptions | any) => {
+const CorsHandlerMain = (corsOption: any) => {
     const corsHandler: RequestHandler = (req, res, next) => {
         const origin: any = req.headers.origin;
-    
-        if(corsOption.origin.includes(origin)) {
+        const optOrigin = corsOption.origin;
+
+        if(optOrigin.includes(origin)) {
             res.header('Access-Control-Allow-Origin', origin);
         }       
     

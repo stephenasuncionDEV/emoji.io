@@ -19,7 +19,7 @@ const io = new Server(server, {
 });
 
 // Cors
-const corsOption: CorsOptions | CorsOptionsDelegate<CorsRequest> | undefined = {
+const corsOption: CorsOptions = {
     origin: ['http://localhost:3000', 'https://emoji-io.netlify.app'],
     optionsSuccessStatus: 200
 }

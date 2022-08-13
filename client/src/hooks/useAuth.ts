@@ -56,7 +56,7 @@ export const useAuth = () => {
             console.error(err);
             let msg = 'Error';
             if (err.response) msg = err.response.data.message
-            else if (err.request)  msg = err.request.message
+            else if (err.request)  msg = err.request.data.message
             else msg = err.message
             toast({
                 title: 'Error',
