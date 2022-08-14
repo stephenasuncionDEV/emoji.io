@@ -1,4 +1,4 @@
-import { Config } from '../interfaces/global'
+import { Config } from '../interfaces/globals'
 import development from './dev'
 import production from './prod'
 import test from './test'

@@ -1,11 +1,15 @@
-export interface SignedInUser {
-    displayName: string;
-    email: string;
-    uid: string;
-    [x: string | number | symbol]: unknown;
+export interface SingleConfig {
+    serverUrl: string,
+    clientUrl: string
 }
 
-export interface KeyState {
+export interface Config {
+    development: SingleConfig,
+    production: SingleConfig,
+    test: SingleConfig
+}
+
+export interface KeyStateData {
     ArrowUp: boolean,
     ArrowDown: boolean,
     ArrowLeft: boolean,
@@ -20,5 +24,5 @@ export interface KeyState {
 
 export interface Viewport {
     width: number,
-    height: number
+    height: number,
 }

@@ -1,4 +1,4 @@
-import { SingleConfig } from '@/interfaces/global'
+import { SingleConfig } from '../interfaces/globals'
 
 const test: SingleConfig = {
     clientUrl: 'https://emoji-io.netlify.app',

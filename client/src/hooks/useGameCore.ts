@@ -1,15 +1,15 @@
-import type { NextPage } from 'next'
-import { KeyStateData } from '@/interfaces/globals'
+import { KeyState, Viewport } from '@/interfaces/globals'
 import { PlayerData, Direction, Dimension } from '@/types/globals'
-import { MutableRefObject, useEffect, useRef, EffectCallback } from 'react'
-import { Flex } from '@chakra-ui/react'
+import { MutableRefObject, useEffect, useRef, useLayoutEffect } from 'react'
 import { useUser } from '@/providers/UserProvider'
-import { io, Socket } from 'socket.io-client'
+import { io } from 'socket.io-client'
 import config from '@/config/index'
 
-const socket = io(config.socketUrl as string);
+export const socket = io(config.socketUrl as string, { reconnection: false });
 
-let keyStateObj: KeyStateData = {
+let players: any = {};
+
+let keyStateObj: KeyState = {
     ArrowUp: false,
     ArrowDown: false,
     ArrowLeft: false,
@@ -19,11 +19,12 @@ let keyStateObj: KeyStateData = {
     a: false,
     d: false,
     f: false,
-    ' ': false,
-    viewport: {
-        width: 1903,
-        height: 873
-    }
+    ' ': false
+}
+
+let viewportObj: Viewport = {
+    width: 1903,
+    height: 873
 }
 
 export class Player {
@@ -59,7 +60,7 @@ export class Player {
 
     draw(ctx: CanvasRenderingContext2D) {
         const { width: playerViewWidth, height: playerViewHeight } = this.viewport;
-        const { width: curUserViewWidth, height: curUserViewHeight } = keyStateObj.viewport;
+        const { width: curUserViewWidth, height: curUserViewHeight } = players[this.id].viewport;
 
         const sameViewport = playerViewWidth === curUserViewWidth && playerViewHeight === curUserViewHeight;
 
@@ -75,11 +76,49 @@ export class Player {
         ctx.fillStyle = this.nameColor || 'black';
         ctx.fillText(this.name, sameViewport ? this.x : curX, sameViewport ? this.y - (this.size + 2) : curY - (this.size + 2));
     }
+
+    update(playerData: Player) {
+        const { id, name, emoji, size, x, y, dX, dY, isJumping, dir, viewport } = playerData;
+
+        this.id = id;
+        this.name = name;
+        this.emoji = emoji;
+        this.size = size;
+        this.x = x;
+        this.y = y;
+        this.dX = dX;
+        this.dY = dY;
+        this.isJumping = isJumping;
+        this.dir = dir;
+        this.viewport = viewport;
+    }
 }
 
 export const useGameCore = () => {
     const canvasRef = useRef() as MutableRefObject<HTMLCanvasElement>;
+    const ctxRef = useRef() as MutableRefObject<CanvasRenderingContext2D>;
     const { user } = useUser();
+
+    // Render Game Graphics
+    useLayoutEffect(() => {
+        if (!canvasRef || !players) return;
+
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        ctxRef.current = ctx!;
+
+        if (!ctx) return;
+
+        const render: any = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            RenderPlayers(ctx);
+            requestAnimationFrame(render);
+        }
+        render();
+
+        return () => cancelAnimationFrame(render);
+
+    }, [canvasRef, players])
 
     // Add player on user join
     useEffect((): any => {
@@ -88,6 +127,7 @@ export const useGameCore = () => {
         const { player: { size, nameColor, emoji }, name } = user;
 
         const newPlayer: PlayerData = {
+            id: '',
             name, 
             emoji,
             size,
@@ -98,7 +138,7 @@ export const useGameCore = () => {
             dY: 10, 
             isJumping: false, 
             dir: 0,
-            viewport: keyStateObj.viewport
+            viewport: viewportObj
         }
 
         socket.on('add-player', (playerData) => {
@@ -110,8 +150,110 @@ export const useGameCore = () => {
         return (): any => socket.off('add-player');
     }, [user])
 
-    const AddPlayer = (playerData: PlayerData) => {
+    // Remove Player Socket Listener
+    useEffect((): any => {
+        socket.on('remove-player', (socketId) => {
+            RemovePlayer(socketId);
+        });
 
+        return () => socket.off('remove-player')
+    }, [])
+
+     // Update all players
+     useEffect((): any => {
+        if (!players) return;
+
+        socket.on('update-players', (playersObj) => {
+            UpdatePlayers(playersObj);
+        });
+
+        return () => socket.off('update-players');
+    }, [players])
+
+    // Player movement socket
+    useEffect(() => {
+        const interval = setInterval(() => {
+            try {
+                socket.emit('move-player', { ...keyStateObj, ...viewportObj });
+                
+                if (!canvasRef.current) return;
+                viewportObj.width = canvasRef.current.width || 1903;
+                viewportObj.height = canvasRef.current.height || 873;
+            }
+            catch (err) {
+                console.error(err);
+            }
+        }, 1000 / 60);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    // Key Down Listener
+    useEffect(() => {
+        const keyListener = (e: KeyboardEvent) => {
+            if (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === ' ') e.preventDefault();
+            if (Object.keys(keyStateObj).indexOf(e.key) === -1) return;
+
+            keyStateObj[e.key as keyof KeyState] = true;
+        }
+        window.addEventListener('keydown', keyListener);
+        return () => window.removeEventListener('keydown', keyListener);
+    }, [])
+
+    // Key Up Listener
+    useEffect(() => {
+        const keyListener = (e: KeyboardEvent) => {
+            if (Object.keys(keyStateObj).indexOf(e.key) === -1) return;
+
+            keyStateObj[e.key as keyof KeyState] = false;
+        }
+        window.addEventListener('keyup', keyListener);
+        return () => window.removeEventListener('keyup', keyListener);
+    }, [])
+
+    const AddPlayer = (playerData: PlayerData) => {
+        try {
+            let newPlayers: any = { ...players };
+            newPlayers[playerData.id] = new Player(playerData as Player);
+            players = newPlayers;
+        }
+        catch (err) {
+            console.error(err);
+        }
+    }
+
+    const RenderPlayers = (ctx: CanvasRenderingContext2D) => {
+        try {
+            Object.values(players).forEach((player: any) => {
+                player.draw(ctx);
+            })
+        }
+        catch (err) {
+            console.error(err);
+        }
+    }
+
+    const UpdatePlayers = (playersObj: any) => {
+        try {
+            Object.entries(players).forEach((playerData: any) => {
+                const [socketId, player] = playerData;
+                player.update(playersObj[socketId]);
+            })
+        }
+        catch (err) {
+            console.error(err);
+        }
+    }
+
+    const RemovePlayer = (socketId: string) => {
+        try {
+            let newPlayers: any = { ...players };
+            delete newPlayers[socketId];
+            players = newPlayers;
+        }
+        catch (err) {
+            console.error(err);
+        }
     }
 
     return {

@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import { Viewport } from '@/interfaces/globals'
 
 export enum Direction {
     top = 0, 
@@ -38,7 +39,7 @@ export type Dimension = {
 }
 
 export type PlayerData = {
-    id?: string, 
+    id: string, 
     name: string, 
     emoji: string, 
     size: number, 
@@ -49,5 +50,5 @@ export type PlayerData = {
     dY: number, 
     isJumping: boolean, 
     dir: Direction, 
-    viewport: Dimension
+    viewport: Viewport | Dimension
 }

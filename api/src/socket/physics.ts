@@ -1,9 +1,9 @@
 export interface Physics {
-    groundPos: Number,
-    playerSpeed: Number,
-    jumpVelocity: Number,
-    sideJumpVelocity: Number,
-    gravity: Number
+    groundPos: number,
+    playerSpeed: number,
+    jumpVelocity: number,
+    sideJumpVelocity: number,
+    gravity: number
 }
 
 export const gamePhysics: Physics = {
