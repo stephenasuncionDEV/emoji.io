@@ -4,7 +4,7 @@ import { useReAuthenticate } from '@/hooks/useReAuthenticate'
 import { useGameCore } from '@/hooks/useGameCore'
 import Meta from '@/components/Meta'
 import Navbar from '@/components/Navbar'
-import AutoSizer from '../src/components/AutoSizer'
+import Filler from '@/components/Filler'
 
 const Game: NextPage = () => {
     const { canvasRef } = useGameCore();
@@ -15,7 +15,7 @@ const Game: NextPage = () => {
             <Meta title='Game | emoji.io' />
             <Navbar />
             <Flex flexDir='column' flex='1'>
-                <AutoSizer>
+                <Filler>
                     {({ width, height }) => (
                         <canvas
                             id='game-display'
@@ -24,7 +24,7 @@ const Game: NextPage = () => {
                             height={height}
                         />
                     )}
-                </AutoSizer>
+                </Filler>
             </Flex>
         </main>
     )

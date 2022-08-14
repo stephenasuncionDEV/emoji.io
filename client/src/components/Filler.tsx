@@ -8,7 +8,7 @@ export interface AutoSizerProps {
     style?: CSSProperties
 }
 
-const AutoSizer: FC<AutoSizerProps> = ({ children, className, style }) => {
+const Filler: FC<AutoSizerProps> = ({ children, className, style }) => {
     const [childParams, setChildParams] = useState<Dimension>({ 
         width: 0, 
         height: 0 
@@ -43,4 +43,4 @@ const AutoSizer: FC<AutoSizerProps> = ({ children, className, style }) => {
     )
 }
 
-export default AutoSizer
+export default Filler
