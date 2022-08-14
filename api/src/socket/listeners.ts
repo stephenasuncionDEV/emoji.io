@@ -1,1 +1,1 @@
-const gamePhysics = require('#socket/physics.js');
+import { gamePhysics } from './physics'
