@@ -24,3 +24,8 @@ export type User = {
     createdAt: string,
     updatedAt: string
 }
+
+export type Dimension = {
+    width: number,
+    height: number
+}

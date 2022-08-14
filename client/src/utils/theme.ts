@@ -48,6 +48,17 @@ const Button: ComponentStyleConfig = {
             },
             color: 'white',
         }),
+        secondary: (props: ComponentDefaultProps) => ({
+            bg: 'white',
+            borderBottom: '3px solid rgb(230,230,230)',
+            _hover: {
+                bg: 'rgb(250,250,250)',
+                _disabled: {
+                    bg: 'rgb(250,250,250)',
+                }
+            },
+            color: 'black',
+        }),
         danger: (props: ComponentDefaultProps) => ({
             bg: 'rgb(229,62,62)',
             borderBottom: '3px solid rgb(163, 44, 44)',

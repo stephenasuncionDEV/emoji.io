@@ -6,21 +6,18 @@ import { Text, Flex, VStack, HStack, Button, Image,
 import { useReAuthenticate } from '@/hooks/useReAuthenticate'
 import { useAuth } from '@/hooks/useAuth'
 import Meta from '@/components/Meta'
+import Navbar from '@/components/Navbar'
 
 const Game: NextPage = () => {
     useReAuthenticate({ protect: true });
     const { Logout } = useAuth();
 
     return (
-        <main style={{ display: 'flex', minHeight: '100vh' }}>
+        <main style={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
             <Meta title='Game | emoji.io' />
+            <Navbar />
             <Flex flexDir='column'>
-                <Text>
-                    Game
-                </Text>
-                <Button onClick={Logout} variant='primary'>
-                    Logout
-                </Button>
+                
             </Flex>
         </main>
     )
