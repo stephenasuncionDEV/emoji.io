@@ -2,7 +2,7 @@
 import 'dotenv/config'
 import path from 'path'
 import express from 'express'
-import cors, { CorsOptions, CorsOptionsDelegate, CorsRequest } from 'cors'
+import cors, { CorsOptions } from 'cors'
 import { createServer } from 'http'
 import errorHandler from './src/middlewares/errorHandler'
 import CorsHandlerMain from './src/middlewares/corsHandler'

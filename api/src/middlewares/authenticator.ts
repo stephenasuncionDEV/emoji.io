@@ -1,10 +1,14 @@
 import { Request, Response, NextFunction } from 'express'
 import * as admin from 'firebase-admin'
 
-const GOOGLE_CREDENTIALS = require('../../emoji-io-55224-firebase-adminsdk-ldrqz-f78898cc8a.json');
+const serviceAccount: admin.ServiceAccount = {
+    projectId: process.env.FB_PROJECT_ID,
+    clientEmail: process.env.FB_CLIENT_EMAIL,
+    privateKey: process.env.FB_PRIVATE_KEY!.replace(/\\n/g, '\n')
+}
 
 export const firebaseApp = admin.initializeApp({
-    credential: admin.credential.cert(GOOGLE_CREDENTIALS)
+    credential: admin.credential.cert(serviceAccount)
 });
 export const auth = admin.auth();
 
