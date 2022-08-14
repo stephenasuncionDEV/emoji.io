@@ -1,12 +1,13 @@
-import { default as NextLink } from 'next/link'
-import { Text, Flex, VStack, HStack, Button, Image, 
-    Divider, Input, InputGroup, InputLeftElement, Link, Box
+import { Text, Flex, HStack, Button, Image, Link
 } from '@chakra-ui/react'
 import { FC } from 'react'
 import { CgProfile, CgLogOut } from 'react-icons/cg'
 import { AiTwotoneShop } from 'react-icons/ai'
+import { useAuth } from '@/hooks/useAuth'
 
 const Navbar: FC = () => {
+    const { Logout } = useAuth();
+
     return (
         <nav>
             <Flex w='full' p='1em' px='2em' justifyContent='space-between'>
@@ -27,7 +28,7 @@ const Navbar: FC = () => {
                             Shop
                         </Button>
                     </HStack>
-                    <Button variant='danger' leftIcon={<CgLogOut />}>
+                    <Button variant='danger' leftIcon={<CgLogOut />} onClick={Logout}>
                         Logout
                     </Button>
                 </HStack>
