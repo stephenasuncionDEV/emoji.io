@@ -4,6 +4,7 @@ import test from '@/config/test'
 
 export interface SingleConfig {
     serverUrl: String
+    socketUrl: String
 }
 
 export interface Config {

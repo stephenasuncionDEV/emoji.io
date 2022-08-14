@@ -1,13 +1,13 @@
 import type { NextPage } from 'next'
 import { Flex } from '@chakra-ui/react'
-import { useGame } from '@/providers/GameProvider'
 import { useReAuthenticate } from '@/hooks/useReAuthenticate'
+import { useGameCore } from '@/hooks/useGameCore'
 import Meta from '@/components/Meta'
 import Navbar from '@/components/Navbar'
 import AutoSizer from '@/components/AutoSizer'
 
 const Game: NextPage = () => {
-    const { canvasRef } = useGame();
+    const { canvasRef } = useGameCore();
     useReAuthenticate({ protect: true });
 
     return (
