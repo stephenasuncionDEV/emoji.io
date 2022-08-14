@@ -4,7 +4,7 @@ import { useGame } from '@/providers/GameProvider'
 import { useReAuthenticate } from '@/hooks/useReAuthenticate'
 import Meta from '@/components/Meta'
 import Navbar from '@/components/Navbar'
-import AutoSizer from '@/components/Autosizer'
+import AutoSizer from '@/components/AutoSizer'
 
 const Game: NextPage = () => {
     const { canvasRef } = useGame();
