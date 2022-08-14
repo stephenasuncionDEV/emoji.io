@@ -1,5 +1,6 @@
 import { SignedInUser } from '@/interfaces/globals'
 import { User } from '@/types/globals'
+import { useRouter } from 'next/router'
 import { initializeApp } from 'firebase/app'
 import { useToast } from '@chakra-ui/react'
 import { useUser } from '@/providers/UserProvider'
@@ -25,8 +26,9 @@ export const githubProvider = new GithubAuthProvider();
 export type SignInProvider = 'google' | 'github'
 
 export const useAuth = () => {
+    const router = useRouter();
     const toast = useToast();
-    const { setUser } = useUser();
+    const { setUser, setIsGuest } = useUser();
     const [nickname, setNickname] = useState<string>('');
 
     const SignIn = async (provider: SignInProvider) => {
@@ -98,6 +100,9 @@ export const useAuth = () => {
             }
 
             setUser(newUser);
+            setIsGuest(true);
+
+            router.push('/game', undefined, { shallow: true });
         }
         catch (err: any) {
             console.error(err)

@@ -14,7 +14,7 @@ export interface ReAuthenticateProps {
 
 export const useReAuthenticate = ({ protect }: ReAuthenticateProps) => {
     const router = useRouter();
-    const { setUser: setUserMain } = useUser();
+    const { setUser: setUserMain, isGuest } = useUser();
     const [loading, setLoading] = useState<boolean>(false);
     const [user, setUser] = useState<User>();
 
@@ -24,7 +24,7 @@ export const useReAuthenticate = ({ protect }: ReAuthenticateProps) => {
         const reAuthenticate = onAuthStateChanged(auth, async (user) => {
             try {
                 if (!user) {
-                    if (protect) router.push('/', undefined, { shallow: true });
+                    if (protect && !isGuest) router.push('/', undefined, { shallow: true });
                     return;
                 }
 
