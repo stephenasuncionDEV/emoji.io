@@ -9,6 +9,7 @@ import CorsHandlerMain from './src/middlewares/corsHandler'
 import { Server } from 'socket.io'
 import connection from './src/db/connection'
 import router from './src/routes'
+import listeners from './src/socket/listeners'
 
 const app = express();
 const server = createServer(app);
@@ -17,6 +18,7 @@ const io = new Server(server, {
         origin: ['http://localhost:3000', 'https://emoji-io.netlify.app']
     }
 });
+const { addPlayer, sendMessage, disconnect } = listeners(io);
 
 // Cors
 const corsOption: CorsOptions = {
@@ -48,9 +50,9 @@ connection.once('open', () => {
         console.log(`[emoji.io] user <${socket.id}> connected`);
 
         // Socket Listeners
-        // socket.on('add-player', addPlayer);
+        socket.on('add-player', addPlayer);
         // socket.on('move-player', movePlayer);
-        // socket.on('send-message', sendMessage);
-        // socket.on('disconnect', disconnect);
+        socket.on('send-message', sendMessage);
+        socket.on('disconnect', disconnect);
     });
 });
