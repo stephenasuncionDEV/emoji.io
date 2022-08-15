@@ -1,7 +1,7 @@
 import { Text, Flex, HStack, Button, Modal, ModalOverlay, 
     ModalContent, ModalHeader, ModalFooter, ModalBody, 
     ModalCloseButton, VStack, Box, Tag, TagLabel, 
-    TagRightIcon, Input, Wrap, Icon, Spinner
+    TagRightIcon, Input, Wrap, Spinner
 } from '@chakra-ui/react'
 import { FC } from 'react'
 import { FaSave } from 'react-icons/fa'

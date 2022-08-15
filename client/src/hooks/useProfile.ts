@@ -1,5 +1,4 @@
 import { useState, useEffect, Dispatch } from 'react'
-import { useUser } from '@/providers/UserProvider'
 import { auth } from '@/hooks/useAuth'
 import { User } from '@/types/globals'
 import { useToast } from '@chakra-ui/react'
