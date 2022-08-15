@@ -1,7 +1,7 @@
 import { Text, Flex, HStack, Button, Modal, ModalOverlay, 
     ModalContent, ModalHeader, ModalFooter, ModalBody, 
     ModalCloseButton, VStack, Box, Tag, TagLabel, 
-    TagRightIcon, Input, Wrap, Spinner, Divider
+    TagRightIcon, Input, Wrap, Spinner
 } from '@chakra-ui/react'
 import { FC } from 'react'
 import { FaSave } from 'react-icons/fa'
@@ -37,8 +37,7 @@ const ProfileModal: FC<ProfileProps> = ({ isProfileOpen, onProfileClose }) => {
                     </HStack>
                 </ModalHeader>
                 <ModalCloseButton />
-                <Divider borderBottom='2px solid rgba(0,0,0,.2)' />
-                <ModalBody display='flex' gap='1.5em' mt='1em'>
+                <ModalBody display='flex' gap='1.5em'>
                     <VStack>
                         <Box p='.5em' border='2px dashed rgb(200,200,200)' borderRadius='5px'>
                             {emoji ? (

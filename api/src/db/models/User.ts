@@ -31,6 +31,10 @@ const UsersSchema = new Schema({
         emojiOwned: {
             type: Array,
             default: []
+        },
+        nameColorOwned: {
+            type: Array,
+            default: []
         }
     }
 

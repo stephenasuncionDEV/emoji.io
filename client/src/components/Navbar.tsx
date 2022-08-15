@@ -7,9 +7,10 @@ import { useAuth } from '@/hooks/useAuth'
 
 export interface NavbarProps {
     onProfileOpen?: () => void
+    onShopOpen?: () => void
 }
 
-const Navbar: FC<NavbarProps> = ({ onProfileOpen }) => {
+const Navbar: FC<NavbarProps> = ({ onProfileOpen, onShopOpen }) => {
     const { Logout } = useAuth();
 
     return (
@@ -28,7 +29,7 @@ const Navbar: FC<NavbarProps> = ({ onProfileOpen }) => {
                         <Button variant='primary' leftIcon={<CgProfile />} onClick={onProfileOpen}>
                             Profile
                         </Button>
-                        <Button variant='primary' leftIcon={<AiTwotoneShop />}>
+                        <Button variant='primary' leftIcon={<AiTwotoneShop />} onClick={onShopOpen}>
                             Shop
                         </Button>
                     </HStack>

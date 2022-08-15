@@ -20,6 +20,7 @@ export type PlayerObj = {
     emoji: string,
     emojiOwned: Array<string>,
     nameColor: string,
+    nameColorOwned: Array<string>,
     size: number
 }
 
