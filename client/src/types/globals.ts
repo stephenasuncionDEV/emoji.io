@@ -53,3 +53,11 @@ export type PlayerData = {
     dir: Direction, 
     viewport: Viewport | Dimension
 }
+
+export type Message = {
+    author: string, 
+    message: string, 
+    color: string,
+    isVerified: boolean,
+    user: User
+}

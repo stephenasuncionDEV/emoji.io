@@ -3,14 +3,16 @@ import { Text, Flex, HStack, Button, Image, Link
 import { FC } from 'react'
 import { CgProfile, CgLogOut } from 'react-icons/cg'
 import { AiTwotoneShop } from 'react-icons/ai'
+import { MdOutlineChat } from 'react-icons/md'
 import { useAuth } from '@/hooks/useAuth'
 
 export interface NavbarProps {
-    onProfileOpen?: () => void
-    onShopOpen?: () => void
+    onProfileOpen?: () => void;
+    onShopOpen?: () => void;
+    onChatOpen?: () => void;
 }
 
-const Navbar: FC<NavbarProps> = ({ onProfileOpen, onShopOpen }) => {
+const Navbar: FC<NavbarProps> = ({ onProfileOpen, onShopOpen, onChatOpen }) => {
     const { Logout } = useAuth();
 
     return (
@@ -31,6 +33,9 @@ const Navbar: FC<NavbarProps> = ({ onProfileOpen, onShopOpen }) => {
                         </Button>
                         <Button variant='primary' leftIcon={<AiTwotoneShop />} onClick={onShopOpen}>
                             Shop
+                        </Button>
+                        <Button variant='primary' leftIcon={<MdOutlineChat />} onClick={onChatOpen}>
+                            Chat
                         </Button>
                     </HStack>
                     <Button variant='danger' leftIcon={<CgLogOut />} onClick={Logout}>

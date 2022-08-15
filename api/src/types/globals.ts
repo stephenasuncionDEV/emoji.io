@@ -25,9 +25,28 @@ export type Player = {
     viewport: Dimension
 }
 
+export type PlayerObj = {
+    emoji: string,
+    emojiOwned: Array<string>,
+    nameColor: string,
+    nameColorOwned: Array<string>,
+    size: number
+}
+
+export type User = {
+    _id: string,
+    email: string,
+    firebase_uid: string,
+    name: string,
+    player: PlayerObj,
+    createdAt: string,
+    updatedAt: string
+}
+
 export type Message = {
     author: string, 
     message: string, 
     color: string,
-    isVerified: boolean
+    isVerified: boolean,
+    user: User
 }

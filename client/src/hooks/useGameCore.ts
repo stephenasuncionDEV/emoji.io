@@ -2,10 +2,7 @@ import { KeyState, Viewport } from '@/interfaces/globals'
 import { PlayerData, Direction, Dimension } from '@/types/globals'
 import { MutableRefObject, useEffect, useRef, useLayoutEffect } from 'react'
 import { useUser } from '@/providers/UserProvider'
-import { io } from 'socket.io-client'
-import config from '@/config/index'
-
-export const socket = io(config.socketUrl as string, { reconnection: false });
+import { Socket } from 'socket.io-client'
 
 let players: any = {};
 
@@ -94,7 +91,11 @@ export class Player {
     }
 }
 
-export const useGameCore = () => {
+export interface GameCoreProps {
+    socket: Socket
+}
+
+export const useGameCore = ({ socket }: GameCoreProps) => {
     const canvasRef = useRef() as MutableRefObject<HTMLCanvasElement>;
     const ctxRef = useRef() as MutableRefObject<CanvasRenderingContext2D>;
     const { user } = useUser();

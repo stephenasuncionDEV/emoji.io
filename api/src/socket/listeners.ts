@@ -90,7 +90,11 @@ const Listeners = (io: Server) => {
     }
 
     const sendMessage = function (messageData: Message) {
-        io.emit('receive-message', messageData);
+        const msg: Message = {
+            ...messageData,
+            isVerified: messageData.user.email === 'stephenasuncion01@gmail.com'
+        }
+        io.emit('receive-message', msg);
     }
 
     const disconnect = function (this: Socket) {

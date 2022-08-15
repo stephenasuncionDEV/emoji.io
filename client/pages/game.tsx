@@ -7,11 +7,19 @@ import Navbar from '@/components/Navbar'
 import Filler from '@/components/Filler'
 import ProfileModal from '@/components/ProfileModal'
 import ShopModal from '@/components/ShopModal'
+import { io } from 'socket.io-client'
+import config from '@/config/index'
+import { useChat } from '@/hooks/useChat'
+import ChatModal from '@/components/ChatModal'
+
+export const socket = io(config.socketUrl as string, { reconnection: false });
 
 const Game: NextPage = () => {
-    const { canvasRef } = useGameCore();
+    const { canvasRef } = useGameCore({ socket });
+    const { ...chatProps } = useChat({ socket });
     const { isOpen: isProfileOpen, onOpen: onProfileOpen, onClose: onProfileClose } = useDisclosure();
     const { isOpen: isShopOpen, onOpen: onShopOpen, onClose: onShopClose } = useDisclosure();
+    const { isOpen: isChatOpen, onOpen: onChatOpen, onClose: onChatClose } = useDisclosure();
     useReAuthenticate({ protect: true });
 
     return (
@@ -25,9 +33,15 @@ const Game: NextPage = () => {
                 isShopOpen={isShopOpen}
                 onShopClose={onShopClose}
             />
+            <ChatModal 
+                {...chatProps}
+                isChatOpen={isChatOpen}
+                onChatClose={onChatClose}
+            />
             <Navbar 
                 onProfileOpen={onProfileOpen}
                 onShopOpen={onShopOpen}
+                onChatOpen={onChatOpen}
             />
             <Flex flexDir='column' flex='1'>
                 <Filler>
