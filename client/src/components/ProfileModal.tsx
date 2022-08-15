@@ -21,7 +21,7 @@ const ProfileModal: FC<ProfileProps> = ({ isProfileOpen, onProfileClose }) => {
         message: 'Successfully copied user id',
         data: user._id
     })
-    const { onSave, name, setName, email, setEmail, onSetEmoji, emoji } = useProfile({ user, setUser });
+    const { onSave, name, setName, email, setEmail, onSetEmoji, emoji, isSaving, isSetting } = useProfile({ user, setUser });
 
     return (
         <Modal onClose={onProfileClose} isOpen={isProfileOpen} isCentered size='lg'>
@@ -33,7 +33,7 @@ const ProfileModal: FC<ProfileProps> = ({ isProfileOpen, onProfileClose }) => {
                 <ModalCloseButton />
                 <ModalBody display='flex' gap='1.5em'>
                     <VStack>
-                        <Box p='.5em' border='2px dashed rgb(120,120,120)' borderRadius='5px'>
+                        <Box p='.5em' border='2px dashed rgb(200,200,200)' borderRadius='5px'>
                             {emoji ? (
                                 <Text fontSize='48pt'>
                                     {emoji}
@@ -99,6 +99,7 @@ const ProfileModal: FC<ProfileProps> = ({ isProfileOpen, onProfileClose }) => {
                                     onClick={() => onSetEmoji(emoji)} 
                                     key={idx}
                                     disabled={user?.player?.emoji === emoji}
+                                    isLoading={isSetting}
                                 >
                                     {emoji}
                                 </Button>
@@ -117,6 +118,8 @@ const ProfileModal: FC<ProfileProps> = ({ isProfileOpen, onProfileClose }) => {
                             leftIcon={<FaSave />} 
                             variant='primary'
                             disabled={name === user?.name}
+                            isLoading={isSaving}
+                            loadingText='Saving'
                         >
                             Save
                         </Button>

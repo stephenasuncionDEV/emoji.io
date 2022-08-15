@@ -21,6 +21,8 @@ export const useProfile = ({ user, setUser }: ProfileModal) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [emoji, setEmoji] = useState('');
+    const [isSaving, setIsSaving] = useState(false);
+    const [isSetting, setIsSetting] = useState(false);
 
     useEffect(() => {
         if (!user) return;
@@ -32,6 +34,8 @@ export const useProfile = ({ user, setUser }: ProfileModal) => {
     const onSave = async () => {
         try {
             if (name === user.name) return;
+
+            setIsSaving(true);
 
             const accessToken = await auth.currentUser?.getIdToken();
 
@@ -50,6 +54,7 @@ export const useProfile = ({ user, setUser }: ProfileModal) => {
             newUser.name = name;
 
             setUser(newUser);
+            setIsSaving(false);
 
             toast({
                 title: 'Success',
@@ -58,6 +63,7 @@ export const useProfile = ({ user, setUser }: ProfileModal) => {
             })
         }
         catch (err: any) {
+            setIsSaving(false);
             console.error(err);
             let msg = 'Error';
             if (err.response) msg = err.response.data.message
@@ -73,6 +79,8 @@ export const useProfile = ({ user, setUser }: ProfileModal) => {
         try {
             if (emoji === desiredEmoji) return;
             
+            setIsSetting(true);
+
             const accessToken = await auth.currentUser?.getIdToken();
             
             const res = await axios.patch(`${config.serverUrl}/api/v1/user/setEmoji`, {
@@ -87,8 +95,10 @@ export const useProfile = ({ user, setUser }: ProfileModal) => {
             if (res.status !== 200) throw new Error('Something wrong occured');
 
             setUser(res.data);
+            setIsSetting(false);
         }
         catch (err: any) {
+            setIsSetting(false);
             console.error(err);
             let msg = 'Something wrong occured';
             if (err.response) msg = err.response.data.message
@@ -108,6 +118,10 @@ export const useProfile = ({ user, setUser }: ProfileModal) => {
         setEmail,
         emoji,
         setEmoji,
-        onSetEmoji
+        onSetEmoji,
+        isSaving,
+        setIsSaving,
+        isSetting,
+        setIsSetting
     }
 }
