@@ -73,12 +73,13 @@ export const useShop = () => {
     // retrieve session callback
     useEffect(() => {
         if (!Object.keys(router.query).length) return;
-        
+        if (!user) return;
+
         const { session_id } = router.query;
 
         retrieveSession(session_id as string);
 
-    }, [router])
+    }, [user])
 
     const onBuy = async (product: Product) => {
         try {

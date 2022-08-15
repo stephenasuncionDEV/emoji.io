@@ -32,7 +32,7 @@ const ProfileModal: FC<ProfileProps> = ({ isProfileOpen, onProfileClose }) => {
     const { onSave, name, setName, email, setEmail, emoji, isSaving } = useProfile({ user, setUser });
 
     return (
-        <Modal onClose={onProfileClose} isOpen={isProfileOpen} isCentered size='lg'>
+        <Modal onClose={onProfileClose} isOpen={isProfileOpen} isCentered size='xl'>
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader fontWeight='normal' py='.75em'>
@@ -45,7 +45,7 @@ const ProfileModal: FC<ProfileProps> = ({ isProfileOpen, onProfileClose }) => {
                 </ModalHeader>
                 <ModalCloseButton />
                 <ModalBody display='flex' gap='1.5em'>
-                    <VStack>
+                    <Flex flexDir='column'>
                         <Box p='.5em' border='2px dashed rgb(200,200,200)' borderRadius='5px'>
                             {emoji ? (
                                 <Text fontSize='48pt'>
@@ -63,7 +63,15 @@ const ProfileModal: FC<ProfileProps> = ({ isProfileOpen, onProfileClose }) => {
                                 </Box>
                             )}
                         </Box>
-                    </VStack>
+                        <Text fontSize='10pt' fontWeight='bold' mt='1.5em'>
+                            Attributes
+                        </Text>
+                        <VStack mt='.25em' alignItems='flex-start' fontSize='9pt' w='full'>
+                            <Text>
+                                Color: {user?.player?.nameColor}
+                            </Text>
+                        </VStack>
+                    </Flex>
                     <Flex flexDir='column' flex='1'>
                         <Flex justifyContent='flex-end'>
                             <HStack>
@@ -136,7 +144,7 @@ const ProfileModal: FC<ProfileProps> = ({ isProfileOpen, onProfileClose }) => {
                                     size='sm' 
                                     fontSize='12pt' 
                                     variant='primary' 
-                                    onClick={() => onSetNameColor(emoji)} 
+                                    onClick={() => onSetNameColor(nameColor)} 
                                     key={idx}
                                     disabled={user?.player?.nameColor === nameColor}
                                     isLoading={isSettingNameColor}
