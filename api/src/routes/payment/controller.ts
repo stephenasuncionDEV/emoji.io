@@ -9,13 +9,13 @@ const createCheckout = async (req: Request, res: Response, next: NextFunction) =
         const errors = validationResult(req).array();
         if (errors.length > 0) throw new Error(errors.map(err => err.msg).join(', '));
 
-        const { userId, name, emoji, price } = req.body;
+        const { userId, product: { name, value, category }, price } = req.body;
 
         // create product
         const product = await stripe.products.create({
-            name: `${name} - ${emoji}`,
+            name,
             default_price_data:{
-                currency: 'CAD',
+                currency: 'USD',
                 unit_amount: price * 100
             }
         });
@@ -24,7 +24,7 @@ const createCheckout = async (req: Request, res: Response, next: NextFunction) =
         const session = await stripe.checkout.sessions.create({
             billing_address_collection: 'auto',
             shipping_address_collection: {
-                allowed_countries: ['CA'],
+                allowed_countries: ['CA', 'US'],
             },
             phone_number_collection: {
                 enabled: true,
@@ -36,11 +36,12 @@ const createCheckout = async (req: Request, res: Response, next: NextFunction) =
                 },
             ],
             mode: 'payment',
-            success_url: `${config.clientUrl}/shop?success=true&session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${config.clientUrl}/shop?canceled=true`,
+            success_url: `${config.clientUrl}/game?success=true&session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${config.clientUrl}/game`,
             metadata: {
-                emoji,
-                userId
+                value,
+                userId,
+                category
             }
         });
         

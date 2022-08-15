@@ -22,7 +22,6 @@ export const useProfile = ({ user, setUser }: ProfileModal) => {
     const [email, setEmail] = useState('');
     const [emoji, setEmoji] = useState('');
     const [isSaving, setIsSaving] = useState(false);
-    const [isSetting, setIsSetting] = useState(false);
 
     useEffect(() => {
         if (!user) return;
@@ -75,41 +74,6 @@ export const useProfile = ({ user, setUser }: ProfileModal) => {
         }
     }
 
-    const onSetEmoji = async (desiredEmoji: string) => {
-        try {
-            if (emoji === desiredEmoji) return;
-            
-            setIsSetting(true);
-
-            const accessToken = await auth.currentUser?.getIdToken();
-            
-            const res = await axios.patch(`${config.serverUrl}/api/v1/user/setEmoji`, {
-                userId: user._id,
-                emoji: desiredEmoji
-            }, {
-                headers: { 
-                    Authorization: `Bearer ${accessToken}` 
-                }
-            })
-
-            if (res.status !== 200) throw new Error('Something wrong occured');
-
-            setUser(res.data);
-            setIsSetting(false);
-        }
-        catch (err: any) {
-            setIsSetting(false);
-            console.error(err);
-            let msg = 'Something wrong occured';
-            if (err.response) msg = err.response.data.message
-            else if (err.request)  msg = err.request.data.message
-            else msg = err.message
-            toast({
-                description: msg
-            })
-        }
-    }
-
     return {
         onSave,
         name,
@@ -118,10 +82,7 @@ export const useProfile = ({ user, setUser }: ProfileModal) => {
         setEmail,
         emoji,
         setEmoji,
-        onSetEmoji,
         isSaving,
-        setIsSaving,
-        isSetting,
-        setIsSetting
+        setIsSaving
     }
 }

@@ -3,38 +3,30 @@ import { Text, Flex, HStack, Button, Modal, ModalOverlay,
     ModalCloseButton, VStack, Wrap, Box, Center
 } from '@chakra-ui/react'
 import { FC } from 'react'
-import { useUser } from '@/providers/UserProvider'
-import { useShop, ShopCategoriesArr, ShopProductsArr, ProductDisplay, getProductCategory } from '@/hooks/useShop'
+import { useShop, ShopCategoriesArr, ShopProductsArr, ProductDisplay } from '@/hooks/useShop'
 import { AiTwotoneShop } from 'react-icons/ai'
-import { User } from '@/types/globals'
 
 export interface ShopProps {
     isShopOpen: boolean,
     onShopClose: () => void
 }
 
-
-const Product: FC<ProductDisplay> = ({ user, product, onBuy, isBuying }) => {
-    const category = getProductCategory(product);
-    const isOwned = {
-        shop_emoji: user?.player?.emojiOwned?.includes(product.emoji!),
-        shop_color: user?.player?.nameColorOwned?.includes(product.nameColor!)
-    }[category]
+const Product: FC<ProductDisplay> = ({ product, onBuy, isBuying, isOwned }) => {
+    const owned = isOwned(product);
 
     return (
         <>
             {{
-                shop_emoji: <Text fontSize='24pt'>{product.emoji}</Text>,
-                shop_color: <Center p='.5em'><Box bg={product.nameColor} p='1em' /></Center>
-            }[category]}
+                shop_emoji: <Text fontSize='24pt'>{product?.value}</Text>,
+                shop_color: <Center p='.5em'><Box bg={product?.value} p='1em'/></Center>
+            }[product?.category]}
             <Button 
                 size='sm' 
                 variant='primary'
                 onClick={() => onBuy(product)}
-                disabled={isOwned || isBuying}
+                disabled={owned || isBuying}
                 isLoading={isBuying}
-                loadingText='Buying'
-            >
+            > 
                 Buy
             </Button>
         </>
@@ -42,13 +34,13 @@ const Product: FC<ProductDisplay> = ({ user, product, onBuy, isBuying }) => {
 }
 
 const ShopModal: FC<ShopProps> = ({ isShopOpen, onShopClose }) => {
-    const { user, setUser } = useUser();
     const { 
         category: shopCategory, 
         setCategory, 
         onBuy, 
-        isBuying
-    } = useShop({ user, setUser });
+        isBuying,
+        isOwned
+    } = useShop();
 
     return (
         <Modal onClose={onShopClose} isOpen={isShopOpen} isCentered size='3xl'>
@@ -94,9 +86,9 @@ const ShopModal: FC<ShopProps> = ({ isShopOpen, onShopClose }) => {
                                 >
                                     <Product 
                                         product={product} 
-                                        user={user} 
                                         onBuy={onBuy} 
                                         isBuying={isBuying}
+                                        isOwned={isOwned}
                                     />
                                 </VStack>
                             ))}

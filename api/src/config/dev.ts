@@ -1,7 +1,7 @@
 import { SingleConfig } from '../interfaces/globals'
 
 const development: SingleConfig = {
-    clientUrl: 'https://emoji-io.netlify.app',
+    clientUrl: 'http://localhost:3000',
 	serverUrl: 'http://localhost:8080',
 }
 

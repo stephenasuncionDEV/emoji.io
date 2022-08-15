@@ -10,6 +10,7 @@ import { MdPerson } from 'react-icons/md'
 import { useUser } from '@/providers/UserProvider'
 import { useCopy } from '@/hooks/useCopy'
 import { useProfile } from '@/hooks/useProfile'
+import { useUserAction } from '@/hooks/useUserAction'
 
 export interface ProfileProps {
     isProfileOpen: boolean,
@@ -22,7 +23,13 @@ const ProfileModal: FC<ProfileProps> = ({ isProfileOpen, onProfileClose }) => {
         message: 'Successfully copied user id',
         data: user._id
     })
-    const { onSave, name, setName, email, setEmail, onSetEmoji, emoji, isSaving, isSetting } = useProfile({ user, setUser });
+    const { 
+        onSetEmoji, 
+        isSettingEmoji,
+        onSetNameColor,
+        isSettingNameColor
+    } = useUserAction();
+    const { onSave, name, setName, email, setEmail, emoji, isSaving } = useProfile({ user, setUser });
 
     return (
         <Modal onClose={onProfileClose} isOpen={isProfileOpen} isCentered size='lg'>
@@ -105,9 +112,36 @@ const ProfileModal: FC<ProfileProps> = ({ isProfileOpen, onProfileClose }) => {
                                     onClick={() => onSetEmoji(emoji)} 
                                     key={idx}
                                     disabled={user?.player?.emoji === emoji}
-                                    isLoading={isSetting}
+                                    isLoading={isSettingEmoji}
                                 >
                                     {emoji}
+                                </Button>
+                            ))}
+                        </Wrap>
+                        <Text fontSize='10pt' mt='1.5em'>
+                            Owned Color&#40;s&#41;
+                        </Text>
+                        <Wrap spacing='.5em' mt='.5em'>
+                            <Button 
+                                size='sm' 
+                                fontSize='12pt' 
+                                variant='primary' 
+                                onClick={() => onSetNameColor('black')} 
+                                disabled={user?.player?.nameColor === 'black'}
+                            >
+                                <Box bg='black' p='.5em' />
+                            </Button>
+                            {user?.player?.nameColorOwned?.map((nameColor, idx) => (
+                                <Button 
+                                    size='sm' 
+                                    fontSize='12pt' 
+                                    variant='primary' 
+                                    onClick={() => onSetNameColor(emoji)} 
+                                    key={idx}
+                                    disabled={user?.player?.nameColor === nameColor}
+                                    isLoading={isSettingNameColor}
+                                >
+                                    <Box bg={nameColor} p='.5em' />
                                 </Button>
                             ))}
                         </Wrap>

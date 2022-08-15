@@ -1,15 +1,11 @@
-import { useState, useEffect, Dispatch } from 'react'
-import { auth } from '@/hooks/useAuth'
-import { User } from '@/types/globals'
-import { useUser } from '@/providers/UserProvider'
+import { useRouter } from 'next/router'
+import { useState, useEffect } from 'react'
 import { useToast } from '@chakra-ui/react'
+import { auth } from '@/hooks/useAuth'
+import { useUser } from '@/providers/UserProvider'
+import { useUserAction } from '@/hooks/useUserAction'
 import config from '@/config/index'
 import axios from 'axios'
-
-export interface ShopModal {
-    user: User
-    setUser: Dispatch<User>
-}
 
 export type ShopCategory = {
     name: string,
@@ -19,8 +15,8 @@ export type ShopCategory = {
 export type Product = {
     name: string,
     price: number,
-    emoji?: string,
-    nameColor?: string
+    value: string
+    category: 'shop_emoji' | 'shop_color'
 }
 
 export type ShopProducts = {
@@ -28,10 +24,10 @@ export type ShopProducts = {
 }
 
 export interface ProductDisplay {
-    user: User
     product: Product
     onBuy: (product: Product) => void,
-    isBuying: boolean
+    isBuying: boolean,
+    isOwned: (product: Product) => boolean
 }
 
 export const ShopCategoriesArr: Array<ShopCategory> = [
@@ -41,35 +37,28 @@ export const ShopCategoriesArr: Array<ShopCategory> = [
 
 export const ShopProductsArr: ShopProducts = {
     shop_emoji: [
-        { name: 'Face with Tears of Joy', emoji: '😂', price: 5 },
-        { name: 'Sparkles', emoji: '✨', price: 5 },
-        { name: 'Red Heart', emoji: '❤️', price: 5 },
-        { name: 'Fire', emoji: '🔥', price: 5 },
-        { name: 'Skull', emoji: '💀', price: 5 },
-        { name: 'Thumbs Up', emoji: '👍', price: 5 },
-        { name: 'Pleading Face', emoji: '🥺', price: 5 },
-        { name: 'Loudly Crying Face', emoji: '😭', price: 5 },
-        { name: 'Eyes', emoji: '👀', price: 5 },
-        { name: 'Money with Wings', emoji: '💸', price: 5 }
+        { name: 'Face with Tears of Joy', value: '😂', price: 5, category: 'shop_emoji' },
+        { name: 'Sparkles', value: '✨', price: 5, category: 'shop_emoji' },
+        { name: 'Red Heart', value: '❤️', price: 5, category: 'shop_emoji' },
+        { name: 'Fire', value: '🔥', price: 5, category: 'shop_emoji' },
+        { name: 'Skull', value: '💀', price: 5, category: 'shop_emoji' },
+        { name: 'Thumbs Up', value: '👍', price: 5, category: 'shop_emoji' },
+        { name: 'Pleading Face', value: '🥺', price: 5, category: 'shop_emoji' },
+        { name: 'Loudly Crying Face', value: '😭', price: 5, category: 'shop_emoji' },
+        { name: 'Eyes', value: '👀', price: 5, category: 'shop_emoji' },
+        { name: 'Money with Wings', value: '💸', price: 5, category: 'shop_emoji' }
     ],
     shop_color: [
-        { name: 'Red', nameColor: 'red', price: 10 },
-        { name: 'Blue', nameColor: 'blue', price: 10 },
-        { name: 'Green', nameColor: 'green', price: 10 },
-        { name: 'Yellow', nameColor: 'yellow', price: 10 }
+        { name: 'Red', value: 'red', price: 10, category: 'shop_color' },
+        { name: 'Blue', value: 'blue', price: 10, category: 'shop_color' },
+        { name: 'Green', value: 'green', price: 10, category: 'shop_color' },
+        { name: 'Yellow', value: 'yellow', price: 10, category: 'shop_color' }
     ]
 }
 
-export const getProductCategory = (product: Product) => {
-    const map = {
-        shop_emoji: product.emoji !== undefined,
-        shop_color: product.nameColor !== undefined
-    } 
-    const [key] = Object.entries(map).filter(([key, value]) => value === true)[0];
-    return key;
-}
-
-export const useShop = ({ user, setUser }: ShopModal) => {
+export const useShop = () => {
+    const { user } = useUser();
+    const router = useRouter();
     const toast = useToast({
         title: 'Error',
         status: 'error',
@@ -77,19 +66,118 @@ export const useShop = ({ user, setUser }: ShopModal) => {
         isClosable: true,
         position: 'bottom'
     });
+    const { addEmoji, addNameColor } = useUserAction();
     const [category, setCategory] = useState<string>('shop_emoji');
     const [isBuying, setIsBuying] = useState<boolean>(false);
 
+    // retrieve session callback
+    useEffect(() => {
+        if (!Object.keys(router.query).length) return;
+        
+        const { session_id } = router.query;
+
+        retrieveSession(session_id as string);
+
+    }, [router])
+
     const onBuy = async (product: Product) => {
         try {
-            const category = getProductCategory(product);
+            const alreadyOwned = isOwned(product);
 
-            if (category === 'shop_emoji' && user.player.emojiOwned.includes(product.emoji!)) throw new Error('User already have this product');
-            if (category === 'shop_color' && user.player.nameColorOwned.includes(product.nameColor!)) throw new Error('User already have this product');
+            if (alreadyOwned) throw new Error('User already have this product');
 
             setIsBuying(true);
 
+            const accessToken = await auth.currentUser?.getIdToken();
+
+            const { name, price, value, category } = product;
+
+            const res = await axios.post(`${config.serverUrl}/api/v1/payment/createCheckout`, {
+                userId: user._id,
+                product: {
+                    name: `${name} - (${value})`,
+                    value,
+                    category
+                },
+                price
+            }, {
+                headers: { 
+                    Authorization: `Bearer ${accessToken}` 
+                }
+            })
+
             setIsBuying(false);
+
+            if (res.status !== 200) return;
+
+            localStorage.setItem('emojiio-session', '01242002');
+
+            router.push(res.data.url);
+        }
+        catch (err: any) {
+            setIsBuying(false);
+            console.error(err);
+            let msg = 'Something wrong occured';
+            if (err.response) msg = err.response.data.message
+            else if (err.request)  msg = err.request.data.message
+            else msg = err.message
+            toast({
+                description: msg
+            })
+        }
+    }
+
+    const isOwned: ((product: Product) => boolean) = (product) => {
+        return {
+            shop_emoji: user.player.emojiOwned.includes(product.value!),
+            shop_color: user.player.nameColorOwned.includes(product.value!)
+        }[product.category]
+    }
+
+    const retrieveSession = async (sessionId: string) => {
+        try {
+            const isSession = localStorage.getItem('emojiio-session');
+            if (!isSession || isSession !== '01242002') return;
+
+            setIsBuying(true);
+
+            const accessToken = await auth.currentUser?.getIdToken();
+
+            // get session information
+            const res = await axios.get(`${config.serverUrl}/api/v1/payment/getSession`, {
+                params: {
+                    sessionId
+                },
+                headers: { 
+                    Authorization: `Bearer ${accessToken}` 
+                }
+            })
+
+            setIsBuying(false);
+
+            if (res.status !== 200) return;
+
+            const { 
+                payment_status, 
+                amount_total,
+                payment_method_types,
+                customer,
+                metadata: { value, userId, category },
+                customer_details: { email, name, phone }
+            } = res.data;
+
+            if (payment_status !== 'paid') return;
+
+            localStorage.removeItem('emojiio-session');
+
+            if (category === 'shop_emoji') await addEmoji(value);
+            else if (category === 'shop_color') await addNameColor(value);
+
+            toast({
+                title: 'Success',
+                description: `Successfully Purchased Product: ${value}`,
+                status: 'success'
+            })
         }
         catch (err: any) {
             setIsBuying(false);
@@ -108,6 +196,7 @@ export const useShop = ({ user, setUser }: ShopModal) => {
         category,
         setCategory,
         onBuy,
-        isBuying
+        isBuying,
+        isOwned
     }
 }

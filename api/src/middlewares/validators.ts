@@ -30,12 +30,8 @@ export const CreateSessionValidator = [
     check('userId', 'userId is empty')
     .notEmpty(),
 
-    // name Validator
-    check('name', 'name is empty')
-    .notEmpty(),
-    
-    // emoji Validator
-    check('emoji', 'emoji is empty')
+    // product Validator
+    check('product', 'product is empty')
     .notEmpty(),
 
     // price Validator
