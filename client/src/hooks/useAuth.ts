@@ -28,7 +28,7 @@ export type SignInProvider = 'google' | 'github'
 export const useAuth = () => {
     const router = useRouter();
     const toast = useToast();
-    const { setUser, setIsGuest } = useUser();
+    const { setUser, setIsGuest, isGuest } = useUser();
     const [nickname, setNickname] = useState<string>('');
 
     const SignIn = async (provider: SignInProvider) => {
@@ -73,6 +73,12 @@ export const useAuth = () => {
 
     const Logout = async () => {
         try {
+            setUser({} as User);
+            if (isGuest) {
+                setIsGuest(false);
+                router.push('/login', undefined, { shallow: true });
+                return;
+            }
             await signOut(auth);
         }
         catch (e) {

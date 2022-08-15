@@ -5,6 +5,7 @@ import { Text, Flex, HStack, Button, Modal, ModalOverlay,
 import { FC } from 'react'
 import { useShop, ShopCategoriesArr, ShopProductsArr, ProductDisplay } from '@/hooks/useShop'
 import { AiTwotoneShop } from 'react-icons/ai'
+import { useUser } from '@/providers/UserProvider'
 
 export interface ShopProps {
     isShopOpen: boolean,
@@ -12,6 +13,7 @@ export interface ShopProps {
 }
 
 const Product: FC<ProductDisplay> = ({ product, onBuy, isBuying, isOwned }) => {
+    const { isGuest } = useUser();
     const owned = isOwned(product);
 
     return (
@@ -24,7 +26,7 @@ const Product: FC<ProductDisplay> = ({ product, onBuy, isBuying, isOwned }) => {
                 size='sm' 
                 variant='primary'
                 onClick={() => onBuy(product)}
-                disabled={owned || isBuying}
+                disabled={owned || isBuying || isGuest}
                 isLoading={isBuying}
             > 
                 Buy

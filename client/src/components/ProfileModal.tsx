@@ -18,7 +18,7 @@ export interface ProfileProps {
 }
 
 const ProfileModal: FC<ProfileProps> = ({ isProfileOpen, onProfileClose }) => {
-    const { user, setUser } = useUser();
+    const { user, setUser, isGuest } = useUser();
     const [onCopy] = useCopy({
         message: 'Successfully copied user id',
         data: user._id
@@ -165,7 +165,7 @@ const ProfileModal: FC<ProfileProps> = ({ isProfileOpen, onProfileClose }) => {
                             size='sm' 
                             leftIcon={<FaSave />} 
                             variant='primary'
-                            disabled={name === user?.name}
+                            disabled={name === user?.name || isGuest}
                             isLoading={isSaving}
                             loadingText='Saving'
                         >
