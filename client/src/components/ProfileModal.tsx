@@ -1,11 +1,12 @@
 import { Text, Flex, HStack, Button, Modal, ModalOverlay, 
     ModalContent, ModalHeader, ModalFooter, ModalBody, 
     ModalCloseButton, VStack, Box, Tag, TagLabel, 
-    TagRightIcon, Input, Wrap, Spinner
+    TagRightIcon, Input, Wrap, Spinner, Divider
 } from '@chakra-ui/react'
 import { FC } from 'react'
 import { FaSave } from 'react-icons/fa'
 import { BiCopy } from 'react-icons/bi'
+import { MdPerson } from 'react-icons/md'
 import { useUser } from '@/providers/UserProvider'
 import { useCopy } from '@/hooks/useCopy'
 import { useProfile } from '@/hooks/useProfile'
@@ -27,11 +28,17 @@ const ProfileModal: FC<ProfileProps> = ({ isProfileOpen, onProfileClose }) => {
         <Modal onClose={onProfileClose} isOpen={isProfileOpen} isCentered size='lg'>
             <ModalOverlay />
             <ModalContent>
-                <ModalHeader fontWeight='normal'>
-                    User Profile
+                <ModalHeader fontWeight='normal' py='.75em'>
+                    <HStack>
+                        <Text>
+                            User Profile
+                        </Text>
+                        <MdPerson />
+                    </HStack>
                 </ModalHeader>
                 <ModalCloseButton />
-                <ModalBody display='flex' gap='1.5em'>
+                <Divider borderBottom='2px solid rgba(0,0,0,.2)' />
+                <ModalBody display='flex' gap='1.5em' mt='1em'>
                     <VStack>
                         <Box p='.5em' border='2px dashed rgb(200,200,200)' borderRadius='5px'>
                             {emoji ? (
