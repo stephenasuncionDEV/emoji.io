@@ -5,7 +5,11 @@ import { CgProfile, CgLogOut } from 'react-icons/cg'
 import { AiTwotoneShop } from 'react-icons/ai'
 import { useAuth } from '@/hooks/useAuth'
 
-const Navbar: FC = () => {
+export interface NavbarProps {
+    onProfileOpen?: () => void
+}
+
+const Navbar: FC<NavbarProps> = ({ onProfileOpen }) => {
     const { Logout } = useAuth();
 
     return (
@@ -21,7 +25,7 @@ const Navbar: FC = () => {
                 </Link>
                 <HStack spacing='2em'>
                     <HStack>
-                        <Button variant='primary' leftIcon={<CgProfile />}>
+                        <Button variant='primary' leftIcon={<CgProfile />} onClick={onProfileOpen}>
                             Profile
                         </Button>
                         <Button variant='primary' leftIcon={<AiTwotoneShop />}>
