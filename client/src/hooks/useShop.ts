@@ -24,10 +24,11 @@ export type ShopProducts = {
 }
 
 export interface ProductDisplay {
-    product: Product
-    onBuy: (product: Product) => void,
-    isBuying: boolean,
-    isOwned: (product: Product) => boolean
+    product: Product;
+    onBuy: (product: Product) => void;
+    isBuying: boolean;
+    isOwned: (product: Product) => boolean;
+    isGuest: boolean;
 }
 
 export const ShopCategoriesArr: Array<ShopCategory> = [

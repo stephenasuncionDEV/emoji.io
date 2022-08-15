@@ -1,16 +1,17 @@
 import { Text, Flex, HStack, Button, Modal, ModalOverlay, 
     ModalContent, ModalHeader, ModalFooter, ModalBody, 
     ModalCloseButton, VStack, Box, Tag, TagLabel, 
-    TagRightIcon, Input, Wrap, Spinner
+    TagRightIcon, Input, Wrap, Spinner, TagLeftIcon
 } from '@chakra-ui/react'
 import { FC } from 'react'
-import { FaSave } from 'react-icons/fa'
-import { BiCopy } from 'react-icons/bi'
-import { MdPerson } from 'react-icons/md'
 import { useUser } from '@/providers/UserProvider'
 import { useCopy } from '@/hooks/useCopy'
 import { useProfile } from '@/hooks/useProfile'
 import { useUserAction } from '@/hooks/useUserAction'
+import { AiOutlineWarning } from 'react-icons/ai'
+import { FaSave } from 'react-icons/fa'
+import { BiCopy } from 'react-icons/bi'
+import { MdPerson } from 'react-icons/md'
 
 export interface ProfileProps {
     isProfileOpen: boolean,
@@ -32,16 +33,24 @@ const ProfileModal: FC<ProfileProps> = ({ isProfileOpen, onProfileClose }) => {
     const { onSave, name, setName, email, setEmail, emoji, isSaving } = useProfile({ user, setUser });
 
     return (
-        <Modal onClose={onProfileClose} isOpen={isProfileOpen} isCentered size='xl'>
+        <Modal onClose={onProfileClose} isOpen={isProfileOpen} isCentered size='2xl'>
             <ModalOverlay />
             <ModalContent>
-                <ModalHeader fontWeight='normal' py='.75em'>
+                <ModalHeader fontWeight='normal' py='.75em' position='relative'>
                     <HStack>
                         <Text>
                             User Profile
                         </Text>
                         <MdPerson />
                     </HStack>
+                    {isGuest && (
+                        <Tag position='absolute' top='.9em' right='4em'>
+                            <TagLeftIcon>
+                                <AiOutlineWarning fontSize='18pt' />
+                            </TagLeftIcon>
+                            <TagLabel>Guest users aren't allowed to edit</TagLabel>
+                        </Tag>
+                    )}
                 </ModalHeader>
                 <ModalCloseButton />
                 <ModalBody display='flex' gap='1.5em'>

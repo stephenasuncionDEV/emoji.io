@@ -1,10 +1,11 @@
 import { Text, Flex, HStack, Button, Modal, ModalOverlay, 
     ModalContent, ModalHeader, ModalFooter, ModalBody, 
-    ModalCloseButton, VStack, Wrap, Box, Center
+    ModalCloseButton, VStack, Wrap, Box, Center, Tag,
+    TagLabel, TagLeftIcon
 } from '@chakra-ui/react'
 import { FC } from 'react'
 import { useShop, ShopCategoriesArr, ShopProductsArr, ProductDisplay } from '@/hooks/useShop'
-import { AiTwotoneShop } from 'react-icons/ai'
+import { AiTwotoneShop, AiOutlineWarning } from 'react-icons/ai'
 import { useUser } from '@/providers/UserProvider'
 
 export interface ShopProps {
@@ -12,8 +13,7 @@ export interface ShopProps {
     onShopClose: () => void
 }
 
-const Product: FC<ProductDisplay> = ({ product, onBuy, isBuying, isOwned }) => {
-    const { isGuest } = useUser();
+const Product: FC<ProductDisplay> = ({ product, onBuy, isBuying, isOwned, isGuest }) => {
     const owned = isOwned(product);
 
     return (
@@ -43,18 +43,27 @@ const ShopModal: FC<ShopProps> = ({ isShopOpen, onShopClose }) => {
         isBuying,
         isOwned
     } = useShop();
+    const { isGuest } = useUser();
 
     return (
         <Modal onClose={onShopClose} isOpen={isShopOpen} isCentered size='3xl'>
             <ModalOverlay />
             <ModalContent>
-                <ModalHeader fontWeight='normal' py='.75em'>
+                <ModalHeader fontWeight='normal' py='.75em' position='relative'>
                     <HStack>
                         <Text>
                             Shop
                         </Text>
                         <AiTwotoneShop />
                     </HStack>
+                    {isGuest && (
+                        <Tag position='absolute' top='.9em' right='4em'>
+                            <TagLeftIcon>
+                                <AiOutlineWarning fontSize='18pt' />
+                            </TagLeftIcon>
+                            <TagLabel>Guest users aren't allowed to buy</TagLabel>
+                        </Tag>
+                    )}
                 </ModalHeader>
                 <ModalCloseButton />
                 <ModalBody display='flex' gap='2em'>
@@ -91,6 +100,7 @@ const ShopModal: FC<ShopProps> = ({ isShopOpen, onShopClose }) => {
                                         onBuy={onBuy} 
                                         isBuying={isBuying}
                                         isOwned={isOwned}
+                                        isGuest={isGuest}
                                     />
                                 </VStack>
                             ))}
