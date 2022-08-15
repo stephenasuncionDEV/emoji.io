@@ -64,7 +64,7 @@ const ProfileModal: FC<ProfileProps> = ({ isProfileOpen, onProfileClose }) => {
                                 <Text fontSize='9pt'>
                                     ID
                                 </Text>
-                                <Tag justifyContent='space-between' size='sm' maxW='140px'>
+                                <Tag justifyContent='space-between' size='sm' maxW='140px' fontFamily='consolas'>
                                     <TagLabel>
                                         {user?._id}
                                     </TagLabel>
@@ -86,7 +86,7 @@ const ProfileModal: FC<ProfileProps> = ({ isProfileOpen, onProfileClose }) => {
                             <Input type='text' value={email} size='sm' onChange={(e) => setEmail(e.target.value)} disabled/>
                         </VStack>
                         <Text fontSize='10pt' mt='1.5em'>
-                            Owned Emojis
+                            Owned Emoji&#40;s&#41;
                         </Text>
                         <Wrap spacing='.5em' mt='.5em'>
                             <Button 
