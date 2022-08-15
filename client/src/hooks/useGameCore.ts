@@ -94,9 +94,11 @@ export class Player {
 export interface GameCoreProps {
     socket: Socket;
     onDCModalOpen: () => void;
+    onChatOpen: () => void;
+    onChatClose: () => void;
 }
 
-export const useGameCore = ({ socket, onDCModalOpen }: GameCoreProps) => {
+export const useGameCore = ({ socket, onDCModalOpen, onChatOpen, onChatClose }: GameCoreProps) => {
     const canvasRef = useRef() as MutableRefObject<HTMLCanvasElement>;
     const ctxRef = useRef() as MutableRefObject<CanvasRenderingContext2D>;
     const { user } = useUser();
@@ -209,7 +211,17 @@ export const useGameCore = ({ socket, onDCModalOpen }: GameCoreProps) => {
     // Key Down Listener
     useEffect(() => {
         const keyListener = (e: KeyboardEvent) => {
-            if (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === ' ') e.preventDefault();
+            if (e.key === 'Enter') onChatOpen();
+            if (e.key === 'Escape') onChatClose(); 
+
+            if (e.key === 'ArrowUp' || 
+            e.key === 'ArrowDown' || 
+            e.key === ' ' || 
+            e.key === 'ArrowLeft' || 
+            e.key === 'ArrowRight' || 
+            e.key === 'a' || 
+            e.key === 'd') e.preventDefault();
+
             if (Object.keys(keyStateObj).indexOf(e.key) === -1) return;
 
             keyStateObj[e.key as keyof KeyState] = true;

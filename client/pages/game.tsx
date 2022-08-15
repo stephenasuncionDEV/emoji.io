@@ -21,7 +21,12 @@ const Game: NextPage = () => {
     const { isOpen: isShopOpen, onOpen: onShopOpen, onClose: onShopClose } = useDisclosure();
     const { isOpen: isChatOpen, onOpen: onChatOpen, onClose: onChatClose } = useDisclosure();
     const { isOpen: isDCModalOpen, onOpen: onDCModalOpen, onClose: onDCModalClose } = useDisclosure();
-    const { canvasRef } = useGameCore({ socket, onDCModalOpen });
+    const { canvasRef } = useGameCore({ 
+        socket, 
+        onDCModalOpen, 
+        onChatOpen,
+        onChatClose
+    });
     useReAuthenticate({ protect: true });
 
     return (
