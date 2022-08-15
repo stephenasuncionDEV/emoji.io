@@ -93,6 +93,7 @@ export const useAuth = () => {
                     emoji: '🐀',
                     emojiOwned: [],
                     nameColor: 'black',
+                    nameColorOwned: [],
                     size: 36
                 },
                 createdAt: new Date().toISOString(),
