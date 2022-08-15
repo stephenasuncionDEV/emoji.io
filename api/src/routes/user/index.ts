@@ -8,7 +8,8 @@ import {
     sendEmail, 
     sendSMS,
     getByEmail,
-    setNameColor
+    setNameColor,
+    addNameColor
 } from './controller'
 import authenticateToken from '../../middlewares/authenticator'
 import { 
@@ -28,6 +29,7 @@ router.post('/login', authenticateToken, LoginValidator, login);
 router.get('/getByEmail', authenticateToken, GetByEmailValidator, getByEmail);
 router.patch('/setName', authenticateToken, SetNameValidator, setName);
 router.patch('/addEmoji', authenticateToken, EmojiValidator, addEmoji);
+router.patch('/addNameColor', authenticateToken, NameColorValidator, addNameColor);
 router.patch('/setEmoji', authenticateToken, EmojiValidator, setEmoji);
 router.patch('/setNameColor', authenticateToken, NameColorValidator, setNameColor);
 router.delete('/delete', authenticateToken, DeleteValidator, deleteUser);

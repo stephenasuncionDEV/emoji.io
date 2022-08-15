@@ -63,7 +63,7 @@ const addEmoji = async (req: Request, res: Response, next: NextFunction) => {
 
         const { userId, emoji } = req.body;
 
-        const user = await User.findOneAndUpdate(
+        await User.findOneAndUpdate(
             { 
                 _id: userId,
                 'player.emojiOwned': {
@@ -78,6 +78,34 @@ const addEmoji = async (req: Request, res: Response, next: NextFunction) => {
         )
 
         res.status(200).json(emoji);
+
+    } catch (err) {
+        next(err);
+    }
+}
+
+const addNameColor = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const errors = validationResult(req).array();
+        if (errors.length > 0) throw new Error(errors.map(err => err.msg).join(', '));
+
+        const { userId, nameColor } = req.body;
+
+        await User.findOneAndUpdate(
+            { 
+                _id: userId,
+                'player.nameColorOwned': {
+                    $ne: nameColor
+                }
+            }, 
+            {
+                $push: {
+                    'player.nameColorOwned': nameColor
+                }
+            }
+        )
+
+        res.status(200).json(nameColor);
 
     } catch (err) {
         next(err);
@@ -228,5 +256,6 @@ export {
     setName,
     sendEmail,
     sendSMS,
-    setNameColor
+    setNameColor,
+    addNameColor
 }
