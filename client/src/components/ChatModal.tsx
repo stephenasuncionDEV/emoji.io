@@ -1,7 +1,7 @@
 import { FC, MutableRefObject, Dispatch, SetStateAction, CSSProperties } from 'react'
 import { Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerContent, 
     DrawerCloseButton, Button, Input, Tag, TagLabel, InputGroup, 
-    InputRightElement, Text, HStack, Box
+    InputRightElement, Text, HStack, Box, Image
 } from '@chakra-ui/react'
 import { Message } from '@/types/globals'
 import Filler from '@/components/Filler'
@@ -33,9 +33,12 @@ const Row: FC<ChatRowProps> = ({ index, style, data } ) => {
 
     return (
         <HStack key={index} style={style} flex='1' alignItems='flex-start'>
-            <Text style={{ color: isVerified ? 'rgb(245, 78, 0)' : 'black', fontWeight: isVerified ? 'bold' : 'normal'}}>
-                {author}
-            </Text>
+            <HStack>
+                <Text style={{ color: isVerified ? 'rgb(245, 78, 0)' : 'black', fontWeight: isVerified ? 'bold' : 'normal'}}>
+                    {author}
+                </Text>
+                {isVerified && <Image src='/assets/images/verified-red.png' alt='Verified User' w='12px' />}
+            </HStack>
             <Box wordBreak='break-all' justifySelf='flex-start'>
                 <Text>
                     {message}
@@ -46,12 +49,14 @@ const Row: FC<ChatRowProps> = ({ index, style, data } ) => {
 }
 
 const getItemSize: ((index: number, messages: Array<Message>) => number) = (index, messages) => {
-    const { author, message } = messages[index];
+    const { author, message, isVerified } = messages[index];
 
-    const CHAR_WIDTH = 10.1142857143;
-    const maxChatWidth = 255 - (author.length * CHAR_WIDTH) - 8;
+    const AUTHOR_CHAR_WIDTH = 9.20142857143;
+    const CHAR_WIDTH = 11.0883333333;
+    const otherPadding = isVerified ? 20 : 0;
+    const maxChatWidth = 272 - (author.length * AUTHOR_CHAR_WIDTH) - 8 - otherPadding;
     const maxCharPerLine = maxChatWidth / CHAR_WIDTH;
-    const lineCount = Math.floor((message.length / maxCharPerLine) + 1);
+    const lineCount = Math.floor(message.length / maxCharPerLine) + 1;
     const height = lineCount * 24;
 
     return height;
