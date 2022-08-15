@@ -79,6 +79,7 @@ const ChatModal: FC<ChatModalProps> = ({
             isOpen={isChatOpen}
             placement='right'
             onClose={onChatClose}
+            closeOnOverlayClick={false}
         >
             <DrawerContent>
                 <DrawerCloseButton />
