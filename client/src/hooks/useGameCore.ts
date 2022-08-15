@@ -57,7 +57,7 @@ export class Player {
 
     draw(ctx: CanvasRenderingContext2D) {
         const { width: playerViewWidth, height: playerViewHeight } = this.viewport;
-        const { width: curUserViewWidth, height: curUserViewHeight } = players[this.id].viewport;
+        const { width: curUserViewWidth, height: curUserViewHeight } = viewportObj;
 
         const sameViewport = playerViewWidth === curUserViewWidth && playerViewHeight === curUserViewHeight;
 
