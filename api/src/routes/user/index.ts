@@ -7,7 +7,8 @@ import {
     setName, 
     sendEmail, 
     sendSMS,
-    getByEmail
+    getByEmail,
+    setNameColor
 } from './controller'
 import authenticateToken from '../../middlewares/authenticator'
 import { 
@@ -17,7 +18,8 @@ import {
     SetNameValidator,
     SendEmailValidator,
     SendSMSValidator,
-    GetByEmailValidator
+    GetByEmailValidator,
+    NameColorValidator
 } from '../../middlewares/validators'
 
 const router = express.Router();
@@ -27,6 +29,7 @@ router.get('/getByEmail', authenticateToken, GetByEmailValidator, getByEmail);
 router.patch('/setName', authenticateToken, SetNameValidator, setName);
 router.patch('/addEmoji', authenticateToken, EmojiValidator, addEmoji);
 router.patch('/setEmoji', authenticateToken, EmojiValidator, setEmoji);
+router.patch('/setNameColor', authenticateToken, NameColorValidator, setNameColor);
 router.delete('/delete', authenticateToken, DeleteValidator, deleteUser);
 router.post('/sendEmail', authenticateToken, SendEmailValidator, sendEmail);
 router.post('/sendSMS', authenticateToken, SendSMSValidator, sendSMS);

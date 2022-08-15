@@ -60,6 +60,18 @@ export const EmojiValidator = [
     
 ];
 
+export const NameColorValidator = [
+
+    // userId Validator
+    check('userId', 'userId is empty')
+    .notEmpty(),
+
+    // nameColor Validator
+    check('nameColor', 'nameColor is empty')
+    .notEmpty(),
+    
+];
+
 export const DeleteValidator = [
 
     // userId Validator

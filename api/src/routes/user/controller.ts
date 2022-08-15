@@ -106,6 +106,28 @@ const setEmoji = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
+const setNameColor = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const errors = validationResult(req).array();
+        if (errors.length > 0) throw new Error(errors.map(err => err.msg).join(', '));
+
+        const { userId, nameColor } = req.body;
+
+        const user = await User.findOneAndUpdate({ _id: userId }, {
+            $set: {
+                'player.nameColor': nameColor
+            }
+        }, {
+            new: true
+        })
+
+        res.status(200).json(user);
+
+    } catch (err) {
+        next(err);
+    }
+}
+
 const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const errors = validationResult(req).array();
@@ -205,5 +227,6 @@ export {
     deleteUser,
     setName,
     sendEmail,
-    sendSMS
+    sendSMS,
+    setNameColor
 }
