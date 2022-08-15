@@ -84,7 +84,7 @@ const ShopModal: FC<ShopProps> = ({ isShopOpen, onShopClose }) => {
                                     borderRadius='5px'
                                     p='.5em'
                                     px='.75em'
-                                    border='1px dashed rgba(0,0,0,.5)'
+                                    border='1px dashed rgba(0,0,0,.25)'
                                 >
                                     <Product 
                                         product={product} 
