@@ -92,13 +92,30 @@ export class Player {
 }
 
 export interface GameCoreProps {
-    socket: Socket
+    socket: Socket;
+    onDCModalOpen: () => void;
 }
 
-export const useGameCore = ({ socket }: GameCoreProps) => {
+export const useGameCore = ({ socket, onDCModalOpen }: GameCoreProps) => {
     const canvasRef = useRef() as MutableRefObject<HTMLCanvasElement>;
     const ctxRef = useRef() as MutableRefObject<CanvasRenderingContext2D>;
     const { user } = useUser();
+
+    // Check if still connected
+    useEffect(() => {
+        const checkConnection = setInterval(() => {
+            try {
+                socket.emit('isConnected', (result: any) => {
+                    if (!result) onDCModalOpen();
+                });
+            }
+            catch (err) {
+                console.error(err);
+            }
+        }, 1000 * 10);
+        
+        return () => clearInterval(checkConnection);
+    }, [])
 
     // Render Game Graphics
     useLayoutEffect(() => {

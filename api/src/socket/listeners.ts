@@ -106,6 +106,16 @@ const Listeners = (io: Server) => {
         console.log(`[emoji.io] user <${socket.id}> disconnected`);
     }
 
+    const isConnected = async function (this: Socket, callbackFn: any) {
+        const socket = this;
+
+        const allSockets = await io.sockets.allSockets();
+        const socketsArr: Array<string> = Array.from(allSockets);
+        const connectionStatus = socketsArr.includes(socket.id);
+
+        callbackFn(connectionStatus)
+    }
+
     // Update all players on all clients
     setInterval(() => {
         io.emit('update-players', players);
@@ -115,7 +125,8 @@ const Listeners = (io: Server) => {
         addPlayer,
         movePlayer,
         sendMessage,
-        disconnect
+        disconnect,
+        isConnected
     }
 }
 

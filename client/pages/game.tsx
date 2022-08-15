@@ -2,24 +2,26 @@ import type { NextPage } from 'next'
 import { Flex, useDisclosure } from '@chakra-ui/react'
 import { useReAuthenticate } from '@/hooks/useReAuthenticate'
 import { useGameCore } from '@/hooks/useGameCore'
+import { useChat } from '@/hooks/useChat'
 import Meta from '@/components/Meta'
 import Navbar from '@/components/Navbar'
 import Filler from '@/components/Filler'
 import ProfileModal from '@/components/ProfileModal'
 import ShopModal from '@/components/ShopModal'
+import ChatModal from '@/components/ChatModal'
+import { DisconnectedModal } from '@/components/DisconnectedModal'
 import { io } from 'socket.io-client'
 import config from '@/config/index'
-import { useChat } from '@/hooks/useChat'
-import ChatModal from '@/components/ChatModal'
 
-export const socket = io(config.socketUrl as string, { reconnection: false });
+export const socket = io(config.socketUrl as string, { reconnection: true });
 
 const Game: NextPage = () => {
-    const { canvasRef } = useGameCore({ socket });
     const { ...chatProps } = useChat({ socket });
     const { isOpen: isProfileOpen, onOpen: onProfileOpen, onClose: onProfileClose } = useDisclosure();
     const { isOpen: isShopOpen, onOpen: onShopOpen, onClose: onShopClose } = useDisclosure();
     const { isOpen: isChatOpen, onOpen: onChatOpen, onClose: onChatClose } = useDisclosure();
+    const { isOpen: isDCModalOpen, onOpen: onDCModalOpen, onClose: onDCModalClose } = useDisclosure();
+    const { canvasRef } = useGameCore({ socket, onDCModalOpen });
     useReAuthenticate({ protect: true });
 
     return (
@@ -37,6 +39,10 @@ const Game: NextPage = () => {
                 {...chatProps}
                 isChatOpen={isChatOpen}
                 onChatClose={onChatClose}
+            />
+            <DisconnectedModal 
+                isDCModalOpen={isDCModalOpen}
+                onDCModalClose={onDCModalClose}
             />
             <Navbar 
                 onProfileOpen={onProfileOpen}

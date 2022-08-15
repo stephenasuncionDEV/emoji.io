@@ -18,7 +18,7 @@ const io = new Server(server, {
         origin: ['http://localhost:3000', 'https://emoji-io.netlify.app']
     }
 });
-const { addPlayer, movePlayer, sendMessage, disconnect } = listeners(io);
+const { addPlayer, movePlayer, sendMessage, disconnect, isConnected } = listeners(io);
 
 // Cors
 const corsOption: CorsOptions = {
@@ -54,5 +54,6 @@ connection.once('open', () => {
         socket.on('move-player', movePlayer);
         socket.on('send-message', sendMessage);
         socket.on('disconnect', disconnect);
+        socket.on('isConnected', isConnected);
     });
 });

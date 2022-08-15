@@ -3,12 +3,22 @@ import type { ComponentStyleConfig, ComponentDefaultProps } from '@chakra-ui/the
 import { extendTheme } from '@chakra-ui/react'
 import { mode } from '@chakra-ui/theme-tools'
 
-const config = {
+export type Config = {
+    initialColorMode: string,
+    useSystemColorMode: boolean
+}
+
+export type Fonts = {
+    heading: string,
+    body: string,
+}
+
+const config: Config = {
     initialColorMode: 'light',
     useSystemColorMode: false,
 }
 
-const fonts = {
+const fonts: Fonts = {
     heading: 'Poppins, Inter, sans-serif',
     body: 'Poppins, Inter, sans-serif',
 }
