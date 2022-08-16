@@ -34,12 +34,12 @@ const Row: FC<ChatRowProps> = ({ index, style, data } ) => {
     return (
         <HStack key={index} style={style} flex='1' alignItems='flex-start'>
             <HStack>
-                <Text style={{ color: isVerified ? 'rgb(245, 78, 0)' : color, fontWeight: isVerified ? 'bold' : 'normal'}}>
+                <Text style={{ color: isVerified ? 'rgb(245, 78, 0)' : color, fontWeight: 'bold'}}>
                     {author}
                 </Text>
                 {isVerified && <Image src='/assets/images/verified-red.png' alt='Verified User' w='12px' />}
             </HStack>
-            <Box wordBreak='break-all' justifySelf='flex-start'>
+            <Box wordBreak='break-all' justifySelf='flex-start' flex='1'>
                 <Text>
                     {message}
                 </Text>
@@ -53,7 +53,7 @@ const getItemSize: ((index: number, messages: Array<Message>) => number) = (inde
 
     const AUTHOR_CHAR_WIDTH = 9.20142857143;
     const CHAR_WIDTH = 11.0883333333;
-    const otherPadding = isVerified ? 20 : 0;
+    const otherPadding = isVerified ? 15 : 0;
     const maxChatWidth = 272 - (author.length * AUTHOR_CHAR_WIDTH) - 8 - otherPadding;
     const maxCharPerLine = maxChatWidth / CHAR_WIDTH;
     const lineCount = Math.floor(message.length / maxCharPerLine) + 1;
