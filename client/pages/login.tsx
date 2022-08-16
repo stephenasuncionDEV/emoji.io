@@ -1,7 +1,8 @@
 import type { NextPage } from 'next'
 import { default as NextLink } from 'next/link'
 import { Text, Flex, VStack, HStack, Button, Image, 
-    Divider, Input, InputGroup, InputLeftElement, Link
+    Divider, Input, InputGroup, InputLeftElement, Link,
+    useColorModeValue
 } from '@chakra-ui/react'
 import { useReAuthenticate } from '@/hooks/useReAuthenticate'
 import { useAuth } from '@/hooks/useAuth'
@@ -13,7 +14,10 @@ import { CgRename } from 'react-icons/cg'
 const Login: NextPage = () => {
     const { SignIn, SignInAsGuest, nickname, setNickname } = useAuth();
     useReAuthenticate({ protect: false });
-    
+
+    const iconColor = useColorModeValue('gray.300', 'black');
+    const placeholderColor = useColorModeValue('gray.300', 'black');
+
     return (
         <main style={{ display: 'flex', minHeight: '100vh' }}>
             <Meta title='Login | emoji.io' />
@@ -47,9 +51,17 @@ const Login: NextPage = () => {
                     </HStack>
                     <InputGroup mt='.5em'>
                         <InputLeftElement pointerEvents='none'>
-                            <CgRename color='gray.300' />
+                            <CgRename color={iconColor} />
                         </InputLeftElement>
-                        <Input type='text' bg='white' placeholder='Nickname' value={nickname} onChange={(e) => setNickname(e.target.value)} />
+                        <Input 
+                            type='text' 
+                            bg='white' 
+                            placeholder='Nickname' 
+                            value={nickname} 
+                            onChange={(e) => setNickname(e.target.value)} 
+                            color='black' 
+                            _placeholder={{ color: placeholderColor }}
+                        />
                     </InputGroup>
                     <HStack mt='2em' justifyContent='space-between'>
                         <Button variant='primary' size='sm' onClick={SignInAsGuest}>

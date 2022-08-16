@@ -29,12 +29,12 @@ export interface ChatRowProps {
 
 const Row: FC<ChatRowProps> = ({ index, style, data } ) => {
     const currentMsg = data.messages[index];
-    const { author, message, isVerified } = currentMsg;
+    const { author, message, isVerified, color } = currentMsg;
 
     return (
         <HStack key={index} style={style} flex='1' alignItems='flex-start'>
             <HStack>
-                <Text style={{ color: isVerified ? 'rgb(245, 78, 0)' : 'black', fontWeight: isVerified ? 'bold' : 'normal'}}>
+                <Text style={{ color: isVerified ? 'rgb(245, 78, 0)' : color, fontWeight: isVerified ? 'bold' : 'normal'}}>
                     {author}
                 </Text>
                 {isVerified && <Image src='/assets/images/verified-red.png' alt='Verified User' w='12px' />}

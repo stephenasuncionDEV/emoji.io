@@ -46,7 +46,7 @@ export const useChat = ({ socket }: ChatProps) => {
             const messageData: Message = {
                 author: user.name,
                 message: messageInput,
-                color: 'black',
+                color: user.player.nameColor,
                 isVerified: false,
                 user
             }

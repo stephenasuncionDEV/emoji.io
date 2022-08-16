@@ -16,11 +16,11 @@ import config from '@/config/index'
 export const socket = io(config.socketUrl as string, { reconnection: true });
 
 const Game: NextPage = () => {
-    const { ...chatProps } = useChat({ socket });
     const { isOpen: isProfileOpen, onOpen: onProfileOpen, onClose: onProfileClose } = useDisclosure();
     const { isOpen: isShopOpen, onOpen: onShopOpen, onClose: onShopClose } = useDisclosure();
     const { isOpen: isChatOpen, onOpen: onChatOpen, onClose: onChatClose } = useDisclosure();
     const { isOpen: isDCModalOpen, onOpen: onDCModalOpen, onClose: onDCModalClose } = useDisclosure();
+    const { ...chatProps } = useChat({ socket });
     const { canvasRef } = useGameCore({ 
         socket, 
         onDCModalOpen, 

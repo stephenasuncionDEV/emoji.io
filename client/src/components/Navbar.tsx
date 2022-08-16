@@ -1,10 +1,12 @@
-import { Text, Flex, HStack, Button, Image, Link
+import { Text, Flex, HStack, Button, Image, Link, TagLabel, Tag,
+    TagLeftIcon, useColorModeValue, useColorMode, IconButton
 } from '@chakra-ui/react'
 import { FC } from 'react'
-import { CgProfile, CgLogOut } from 'react-icons/cg'
-import { AiTwotoneShop } from 'react-icons/ai'
-import { MdOutlineChat } from 'react-icons/md'
+import { useUser } from '@/providers/UserProvider'
 import { useAuth } from '@/hooks/useAuth'
+import { CgProfile, CgLogOut } from 'react-icons/cg'
+import { AiTwotoneShop, AiOutlineWarning } from 'react-icons/ai'
+import { MdOutlineChat, MdOutlineDarkMode, MdOutlineLightMode } from 'react-icons/md'
 
 export interface NavbarProps {
     onProfileOpen?: () => void;
@@ -14,6 +16,10 @@ export interface NavbarProps {
 
 const Navbar: FC<NavbarProps> = ({ onProfileOpen, onShopOpen, onChatOpen }) => {
     const { Logout } = useAuth();
+    const { isGuest } = useUser();
+    const { colorMode, toggleColorMode } = useColorMode();
+
+    const tagBgColor = useColorModeValue('gray.200', 'white.200');
 
     return (
         <nav>
@@ -27,6 +33,14 @@ const Navbar: FC<NavbarProps> = ({ onProfileOpen, onShopOpen, onChatOpen }) => {
                     </HStack>
                 </Link>
                 <HStack spacing='2em'>
+                    {isGuest && (
+                        <Tag bg={tagBgColor}>
+                            <TagLeftIcon>
+                                <AiOutlineWarning fontSize='18pt' />
+                            </TagLeftIcon>
+                            <TagLabel>You are logged in as guest</TagLabel>
+                        </Tag>
+                    )}
                     <HStack>
                         <Button variant='primary' leftIcon={<CgProfile />} onClick={onProfileOpen}>
                             Profile
@@ -37,6 +51,13 @@ const Navbar: FC<NavbarProps> = ({ onProfileOpen, onShopOpen, onChatOpen }) => {
                         <Button variant='primary' leftIcon={<MdOutlineChat />} onClick={onChatOpen}>
                             Chat
                         </Button>
+                        <IconButton aria-label='Toggle Color Mode' onClick={toggleColorMode} variant='transparent'>
+                            {colorMode === 'light' ? (
+                                <MdOutlineDarkMode />
+                            ) : (
+                                <MdOutlineLightMode />
+                            )}
+                        </IconButton>
                     </HStack>
                     <Button variant='danger' leftIcon={<CgLogOut />} onClick={Logout}>
                         Logout
