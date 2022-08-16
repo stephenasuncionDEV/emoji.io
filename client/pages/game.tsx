@@ -13,7 +13,7 @@ import { DisconnectedModal } from '@/components/DisconnectedModal'
 import { io } from 'socket.io-client'
 import config from '@/config/index'
 
-export const socket = io(config.socketUrl as string, { reconnection: true });
+export const socket = io(config.socketUrl as string, { reconnection: false });
 
 const Game: NextPage = () => {
     const { isOpen: isProfileOpen, onOpen: onProfileOpen, onClose: onProfileClose } = useDisclosure();
@@ -22,7 +22,8 @@ const Game: NextPage = () => {
     const { isOpen: isDCModalOpen, onOpen: onDCModalOpen, onClose: onDCModalClose } = useDisclosure();
     const { ...chatProps } = useChat({ socket });
     const { canvasRef } = useGameCore({ 
-        socket, 
+        socket,
+        isChatOpen,
         onDCModalOpen, 
         onChatOpen,
         onChatClose

@@ -89,11 +89,16 @@ const Listeners = (io: Server) => {
         }
     }
 
-    const sendMessage = function (messageData: Message) {
+    const sendMessage = function (this: Socket, messageData: Message) {
+        const socket = this;
+
         const msg: Message = {
             ...messageData,
-            isVerified: messageData.user.email === 'stephenasuncion01@gmail.com'
+            isVerified: messageData.user.email === 'stephenasuncion01@gmail.com',
+            socketId: socket.id
         }
+
+        io.emit('receive-message-game', msg);
         io.emit('receive-message', msg);
     }
 
@@ -113,7 +118,7 @@ const Listeners = (io: Server) => {
         const socketsArr: Array<string> = Array.from(allSockets);
         const connectionStatus = socketsArr.includes(socket.id);
 
-        callbackFn(connectionStatus)
+        callbackFn(connectionStatus);
     }
 
     // Update all players on all clients

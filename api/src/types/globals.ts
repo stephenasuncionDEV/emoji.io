@@ -10,6 +10,11 @@ export type Dimension = {
     height: number
 }
 
+export type Chat = {
+    state: boolean,
+    chat: Message
+}
+
 export type Player = {
     id?: string, 
     name: string, 
@@ -22,7 +27,8 @@ export type Player = {
     dY: number, 
     isJumping: boolean, 
     dir: Direction, 
-    viewport: Dimension
+    viewport: Dimension,
+    message: Chat
 }
 
 export type PlayerObj = {
@@ -48,5 +54,6 @@ export type Message = {
     message: string, 
     color: string,
     isVerified: boolean,
-    user: User
+    user: User,
+    socketId?: string
 }
