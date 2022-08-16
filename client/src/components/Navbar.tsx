@@ -20,7 +20,7 @@ const Navbar: FC<NavbarProps> = ({ onProfileOpen, onShopOpen, onChatOpen }) => {
     const { colorMode, toggleColorMode } = useColorMode();
 
     const tagBgColor = useColorModeValue('gray.200', 'white.200');
-    const colorModeColor = useColorModeValue('blackAlpha.500', 'yellow');
+    const colorModeColor = useColorModeValue('blackAlpha.500', 'whiteAlpha.500');
 
     return (
         <nav>
