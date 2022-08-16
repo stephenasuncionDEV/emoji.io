@@ -20,6 +20,7 @@ const Navbar: FC<NavbarProps> = ({ onProfileOpen, onShopOpen, onChatOpen }) => {
     const { colorMode, toggleColorMode } = useColorMode();
 
     const tagBgColor = useColorModeValue('gray.200', 'white.200');
+    const colorModeColor = useColorModeValue('blackAlpha.500', 'yellow');
 
     return (
         <nav>
@@ -51,12 +52,16 @@ const Navbar: FC<NavbarProps> = ({ onProfileOpen, onShopOpen, onChatOpen }) => {
                         <Button variant='primary' leftIcon={<MdOutlineChat />} onClick={onChatOpen}>
                             Chat
                         </Button>
-                        <IconButton aria-label='Toggle Color Mode' onClick={toggleColorMode} variant='transparent'>
-                            {colorMode === 'light' ? (
-                                <MdOutlineDarkMode />
-                            ) : (
-                                <MdOutlineLightMode />
-                            )}
+                        <IconButton 
+                            aria-label='Toggle Color Mode' 
+                            onClick={toggleColorMode} 
+                            _hover={{ 
+                                color: colorModeColor, 
+                                bg: 'transparent' 
+                            }} 
+                            bg='transparent'
+                        >
+                            {colorMode === 'light' ? <MdOutlineDarkMode /> : <MdOutlineLightMode />}
                         </IconButton>
                     </HStack>
                     <Button variant='danger' leftIcon={<CgLogOut />} onClick={Logout}>
