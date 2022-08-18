@@ -90,11 +90,13 @@ export const useAuth = () => {
         try {
             if (!nickname.length) throw new Error('You must enter a nickname');
 
+            const name = nickname.trim();
+
             const newUser: User = {
-                _id: 'guest',
-                email: 'guest',
-                firebase_uid: 'guest',
-                name: nickname,
+                _id: `guest-${name}`,
+                email: `guest-${name}@emoji.io`,
+                firebase_uid: 'guest-${name}',
+                name: name,
                 player: {
                     emoji: '🐀',
                     emojiOwned: [],
