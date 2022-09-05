@@ -15,6 +15,13 @@
     emoji.io is a multiplayer online action game created by Filipino developer Stephen Asuncion.
 </p>
 
+<p align="center">
+    Demo:
+    <a href="https://www.youtube.com/watch?v=YdUsmb0gI7c" target="_blank">
+        https://www.youtube.com/watch?v=YdUsmb0gI7c
+    </a>
+</p>
+
 ## Setup
 
 [DockerHub: Client](https://hub.docker.com/repository/docker/stephenasuncion/emoji.io)
